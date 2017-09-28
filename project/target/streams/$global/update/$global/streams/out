@@ -1,11 +1,11 @@
-[0m[[0minfo[0m] [0mUpdating {file:/C:/Users/PC/Desktop/pukima/PukimanGame/bin/project/}bin-build...[0m
-[0m[[0mdebug[0m] [0m:: resolving dependencies :: default#bin-build;0.1-SNAPSHOT[0m
+[0m[[0minfo[0m] [0mUpdating {file:/C:/Users/PC/Desktop/Pokemon%20MMO/.git/project/}root--git-build...[0m
+[0m[[0mdebug[0m] [0m:: resolving dependencies :: root-git-build#root-git-build;0.1-SNAPSHOT[0m
 [0m[[0mdebug[0m] [0m	confs: [compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool][0m
 [0m[[0mdebug[0m] [0m	validate = true[0m
 [0m[[0mdebug[0m] [0m	refresh = false[0m
 [0m[[0mdebug[0m] [0mresolving dependencies for configuration 'compile'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-sbt#global-plugins;0.0 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-sbt#global-plugins;0.0 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0minfo[0m] [0mResolving org.scala-sbt#global-plugins;0.0 ...[0m
@@ -13,7 +13,7 @@
 [0m[[0mdebug[0m] [0m	found org.scala-sbt#global-plugins;0.0 in inter-project[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0minfo[0m] [0mResolving com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0 ...[0m
@@ -93,7 +93,7 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0->org.scalaz#scalaz-effect_2.10;7.1.0 [compile->master][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->com.eed3si9n#sbt-assembly;0.14.3 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->com.eed3si9n#sbt-assembly;0.14.3 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0minfo[0m] [0mResolving com.eed3si9n#sbt-assembly;0.14.3 ...[0m
@@ -420,16 +420,16 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies org.pantsbuild#jarjar;1.6.0->org.apache.maven#maven-plugin-api;3.3.3 [runtime->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.eed3si9n#sbt-assembly;0.14.3->org.pantsbuild#jarjar;1.6.0 [compile->master][0m
 [0m[[0mdebug[0m] [0mresolving dependencies for configuration 'runtime'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-sbt#global-plugins;0.0 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [runtime][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-sbt#global-plugins;0.0 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -496,7 +496,7 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0->org.scalaz#scalaz-effect_2.10;7.1.0 [compile->master][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->com.eed3si9n#sbt-assembly;0.14.3 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->com.eed3si9n#sbt-assembly;0.14.3 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -772,10 +772,10 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies org.eclipse.sisu#org.eclipse.sisu.plexus;0.3.0->org.codehaus.plexus#plexus-utils;3.0.20 [runtime->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.eed3si9n#sbt-assembly;0.14.3->org.pantsbuild#jarjar;1.6.0 [compile->master][0m
 [0m[[0mdebug[0m] [0mresolving dependencies for configuration 'test'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [test][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-sbt#global-plugins;0.0 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [test][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [runtime][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-sbt#global-plugins;0.0 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -784,7 +784,7 @@
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -859,7 +859,7 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0->org.scalaz#scalaz-effect_2.10;7.1.0 [compile->master][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->com.eed3si9n#sbt-assembly;0.14.3 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->com.eed3si9n#sbt-assembly;0.14.3 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -1175,14 +1175,14 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies org.eclipse.sisu#org.eclipse.sisu.plexus;0.3.0->org.codehaus.plexus#plexus-utils;3.0.20 [runtime->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.eed3si9n#sbt-assembly;0.14.3->org.pantsbuild#jarjar;1.6.0 [compile->master][0m
 [0m[[0mdebug[0m] [0mresolving dependencies for configuration 'provided'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [provided][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [provided][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-sbt#sbt;0.13.12 [provided->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->runtime][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->master][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-sbt#sbt;0.13.12 [provided->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0minfo[0m] [0mResolving org.scala-sbt#sbt;0.13.12 ...[0m
@@ -2962,11 +2962,11 @@
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {provided=[default(compile)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.6 {compile=[default(compile)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mresolving dependencies for configuration 'optional'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [optional][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [optional][0m
 [0m[[0mdebug[0m] [0mresolving dependencies for configuration 'compile-internal'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [compile-internal][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-sbt#global-plugins;0.0 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [compile-internal][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-sbt#global-plugins;0.0 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -2977,7 +2977,7 @@
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -3060,7 +3060,7 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0->org.scalaz#scalaz-effect_2.10;7.1.0 [compile->master][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->com.eed3si9n#sbt-assembly;0.14.3 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->com.eed3si9n#sbt-assembly;0.14.3 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -3415,13 +3415,13 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies org.eclipse.sisu#org.eclipse.sisu.plexus;0.3.0->org.codehaus.plexus#plexus-utils;3.0.20 [runtime->runtime(*)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies org.eclipse.sisu#org.eclipse.sisu.plexus;0.3.0->org.codehaus.plexus#plexus-utils;3.0.20 [runtime->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.eed3si9n#sbt-assembly;0.14.3->org.pantsbuild#jarjar;1.6.0 [compile->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [optional][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [provided][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->default(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-sbt#sbt;0.13.12 [provided->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [optional][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [provided][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->runtime][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->master][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-sbt#sbt;0.13.12 [provided->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -5271,10 +5271,10 @@
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {provided=[default(compile)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.6 {compile=[default(compile)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mresolving dependencies for configuration 'runtime-internal'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [runtime-internal][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-sbt#global-plugins;0.0 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [runtime-internal][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [runtime][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-sbt#global-plugins;0.0 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -5285,7 +5285,7 @@
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -5368,7 +5368,7 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0->org.scalaz#scalaz-effect_2.10;7.1.0 [compile->master][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->com.eed3si9n#sbt-assembly;0.14.3 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->com.eed3si9n#sbt-assembly;0.14.3 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -5723,13 +5723,13 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies org.eclipse.sisu#org.eclipse.sisu.plexus;0.3.0->org.codehaus.plexus#plexus-utils;3.0.20 [runtime->runtime(*)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies org.eclipse.sisu#org.eclipse.sisu.plexus;0.3.0->org.codehaus.plexus#plexus-utils;3.0.20 [runtime->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.eed3si9n#sbt-assembly;0.14.3->org.pantsbuild#jarjar;1.6.0 [compile->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [optional][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [optional][0m
 [0m[[0mdebug[0m] [0mresolving dependencies for configuration 'test-internal'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [test-internal][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [test][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-sbt#global-plugins;0.0 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [test-internal][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [test][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [runtime][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-sbt#global-plugins;0.0 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -5744,7 +5744,7 @@
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -5843,7 +5843,7 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbteclipse#sbteclipse-plugin;4.0.0->org.scalaz#scalaz-effect_2.10;7.1.0 [compile->master][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->com.eed3si9n#sbt-assembly;0.14.3 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->com.eed3si9n#sbt-assembly;0.14.3 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -6278,13 +6278,13 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies org.eclipse.sisu#org.eclipse.sisu.plexus;0.3.0->org.codehaus.plexus#plexus-utils;3.0.20 [runtime->runtime(*)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies org.eclipse.sisu#org.eclipse.sisu.plexus;0.3.0->org.codehaus.plexus#plexus-utils;3.0.20 [runtime->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.eed3si9n#sbt-assembly;0.14.3->org.pantsbuild#jarjar;1.6.0 [compile->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [optional][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [provided][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->default(compile)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-sbt#sbt;0.13.12 [provided->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [optional][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [provided][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->runtime][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [provided->master][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-sbt#sbt;0.13.12 [provided->default(compile)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
@@ -8330,20 +8330,20 @@
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {provided=[default(compile)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {provided=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.6 {compile=[default(compile)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[default(compile)]}[0m
 [0m[[0mdebug[0m] [0mresolving dependencies for configuration 'plugin'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [plugin][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [plugin][0m
 [0m[[0mdebug[0m] [0mresolving dependencies for configuration 'sources'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [sources][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [sources][0m
 [0m[[0mdebug[0m] [0mresolving dependencies for configuration 'docs'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [docs][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [docs][0m
 [0m[[0mdebug[0m] [0mresolving dependencies for configuration 'pom'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [pom][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [pom][0m
 [0m[[0mdebug[0m] [0mresolving dependencies for configuration 'scala-tool'[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies for default#bin-build;0.1-SNAPSHOT [scala-tool][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-compiler;2.10.6 [scala-tool->default][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies for root-git-build#root-git-build;0.1-SNAPSHOT [scala-tool][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-compiler;2.10.6 [scala-tool->default][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.10.6 {scala-tool=[default, optional(default)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.10.6 {provided=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.10.6 {scala-tool=[default, optional(default)], provided=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-compiler;2.10.6 [scala-tool->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-compiler;2.10.6 [scala-tool->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-compiler;2.10.6 [scala-tool->runtime][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-compiler;2.10.6 [scala-tool->compile][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#jline;2.10.6 {optional=[compile(*), master(*)]} => dependency: org.scala-lang#jline;2.10.6 {optional=[compile(*), master(*)]}[0m
@@ -8409,14 +8409,14 @@
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-reflect;2.10.6->org.scala-lang#scala-library;2.10.6 [runtime->runtime(*)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#scala-reflect;2.10.6->org.scala-lang#scala-library;2.10.6 [runtime->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-compiler;2.10.6 [scala-tool->master][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-compiler;2.10.6 [scala-tool->master][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#jline;2.10.6 {optional=[compile(*), master(*)]} => dependency: org.scala-lang#jline;2.10.6 {optional=[compile(*), master(*)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#jline;2.10.6 {optional=[compile(*), master(*)]} => dependency: org.scala-lang#jline;2.10.6 {optional=[compile(*), master(*)]}[0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-compiler;2.10.6 [scala-tool->optional(default)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-compiler;2.10.6 [scala-tool->optional(default)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.10.6 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#jline;2.10.6 {optional=[compile(*), master(*)]} => dependency: org.scala-lang#jline;2.10.6 {optional=[compile(*), master(*)]}[0m
@@ -8472,11 +8472,11 @@
 [0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.fusesource.jansi#jansi;1.4[0m
 [0m[[0mdebug[0m] [0m	found org.fusesource.jansi#jansi;1.4 in sbt-chain[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies org.scala-lang#jline;2.10.6->org.fusesource.jansi#jansi;1.4 [compile->compile(*)][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [scala-tool->default][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [scala-tool->runtime][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [scala-tool->compile][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [scala-tool->master][0m
-[0m[[0mdebug[0m] [0m== resolving dependencies default#bin-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [scala-tool->optional(default)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [scala-tool->default][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [scala-tool->runtime][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [scala-tool->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [scala-tool->master][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies root-git-build#root-git-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.6 [scala-tool->optional(default)][0m
 [0m[[0mdebug[0m] [0mignoring unhandled DependencyDescriptorMediator: class sbt.IvyScala$OverrideScalaMediator[0m
 [0m[[0mdebug[0m] [0m	resolved ivy file produced in cache[0m
 [0m[[0mdebug[0m] [0m:: downloading artifacts ::[0m
@@ -8555,19 +8555,19 @@
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-sbt#apply-macro;0.13.12!apply-macro.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#jline;2.10.6!jline.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.fusesource.jansi#jansi;1.4!jansi.jar[0m
-[0m[[0mdebug[0m] [0m:: resolution report :: resolve 1490ms :: artifacts dl 31ms[0m
-[0m[[0mdebug[0m] [0m	report for default#bin-build;0.1-SNAPSHOT compile produced in C:\Users\PC\Desktop\pukima\PukimanGame\bin\project\target\resolution-cache\reports\default-bin-build-compile.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#bin-build;0.1-SNAPSHOT runtime produced in C:\Users\PC\Desktop\pukima\PukimanGame\bin\project\target\resolution-cache\reports\default-bin-build-runtime.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#bin-build;0.1-SNAPSHOT test produced in C:\Users\PC\Desktop\pukima\PukimanGame\bin\project\target\resolution-cache\reports\default-bin-build-test.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#bin-build;0.1-SNAPSHOT provided produced in C:\Users\PC\Desktop\pukima\PukimanGame\bin\project\target\resolution-cache\reports\default-bin-build-provided.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#bin-build;0.1-SNAPSHOT optional produced in C:\Users\PC\Desktop\pukima\PukimanGame\bin\project\target\resolution-cache\reports\default-bin-build-optional.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#bin-build;0.1-SNAPSHOT compile-internal produced in C:\Users\PC\Desktop\pukima\PukimanGame\bin\project\target\resolution-cache\reports\default-bin-build-compile-internal.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#bin-build;0.1-SNAPSHOT runtime-internal produced in C:\Users\PC\Desktop\pukima\PukimanGame\bin\project\target\resolution-cache\reports\default-bin-build-runtime-internal.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#bin-build;0.1-SNAPSHOT test-internal produced in C:\Users\PC\Desktop\pukima\PukimanGame\bin\project\target\resolution-cache\reports\default-bin-build-test-internal.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#bin-build;0.1-SNAPSHOT plugin produced in C:\Users\PC\Desktop\pukima\PukimanGame\bin\project\target\resolution-cache\reports\default-bin-build-plugin.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#bin-build;0.1-SNAPSHOT sources produced in C:\Users\PC\Desktop\pukima\PukimanGame\bin\project\target\resolution-cache\reports\default-bin-build-sources.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#bin-build;0.1-SNAPSHOT docs produced in C:\Users\PC\Desktop\pukima\PukimanGame\bin\project\target\resolution-cache\reports\default-bin-build-docs.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#bin-build;0.1-SNAPSHOT pom produced in C:\Users\PC\Desktop\pukima\PukimanGame\bin\project\target\resolution-cache\reports\default-bin-build-pom.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#bin-build;0.1-SNAPSHOT scala-tool produced in C:\Users\PC\Desktop\pukima\PukimanGame\bin\project\target\resolution-cache\reports\default-bin-build-scala-tool.xml[0m
-[0m[[0mdebug[0m] [0m	resolve done (1490ms resolve - 31ms download)[0m
+[0m[[0mdebug[0m] [0m:: resolution report :: resolve 3913ms :: artifacts dl 67ms[0m
+[0m[[0mdebug[0m] [0m	report for root-git-build#root-git-build;0.1-SNAPSHOT compile produced in C:\Users\PC\Desktop\Pokemon MMO\.git\project\target\resolution-cache\reports\root-git-build-root-git-build-compile.xml[0m
+[0m[[0mdebug[0m] [0m	report for root-git-build#root-git-build;0.1-SNAPSHOT runtime produced in C:\Users\PC\Desktop\Pokemon MMO\.git\project\target\resolution-cache\reports\root-git-build-root-git-build-runtime.xml[0m
+[0m[[0mdebug[0m] [0m	report for root-git-build#root-git-build;0.1-SNAPSHOT test produced in C:\Users\PC\Desktop\Pokemon MMO\.git\project\target\resolution-cache\reports\root-git-build-root-git-build-test.xml[0m
+[0m[[0mdebug[0m] [0m	report for root-git-build#root-git-build;0.1-SNAPSHOT provided produced in C:\Users\PC\Desktop\Pokemon MMO\.git\project\target\resolution-cache\reports\root-git-build-root-git-build-provided.xml[0m
+[0m[[0mdebug[0m] [0m	report for root-git-build#root-git-build;0.1-SNAPSHOT optional produced in C:\Users\PC\Desktop\Pokemon MMO\.git\project\target\resolution-cache\reports\root-git-build-root-git-build-optional.xml[0m
+[0m[[0mdebug[0m] [0m	report for root-git-build#root-git-build;0.1-SNAPSHOT compile-internal produced in C:\Users\PC\Desktop\Pokemon MMO\.git\project\target\resolution-cache\reports\root-git-build-root-git-build-compile-internal.xml[0m
+[0m[[0mdebug[0m] [0m	report for root-git-build#root-git-build;0.1-SNAPSHOT runtime-internal produced in C:\Users\PC\Desktop\Pokemon MMO\.git\project\target\resolution-cache\reports\root-git-build-root-git-build-runtime-internal.xml[0m
+[0m[[0mdebug[0m] [0m	report for root-git-build#root-git-build;0.1-SNAPSHOT test-internal produced in C:\Users\PC\Desktop\Pokemon MMO\.git\project\target\resolution-cache\reports\root-git-build-root-git-build-test-internal.xml[0m
+[0m[[0mdebug[0m] [0m	report for root-git-build#root-git-build;0.1-SNAPSHOT plugin produced in C:\Users\PC\Desktop\Pokemon MMO\.git\project\target\resolution-cache\reports\root-git-build-root-git-build-plugin.xml[0m
+[0m[[0mdebug[0m] [0m	report for root-git-build#root-git-build;0.1-SNAPSHOT sources produced in C:\Users\PC\Desktop\Pokemon MMO\.git\project\target\resolution-cache\reports\root-git-build-root-git-build-sources.xml[0m
+[0m[[0mdebug[0m] [0m	report for root-git-build#root-git-build;0.1-SNAPSHOT docs produced in C:\Users\PC\Desktop\Pokemon MMO\.git\project\target\resolution-cache\reports\root-git-build-root-git-build-docs.xml[0m
+[0m[[0mdebug[0m] [0m	report for root-git-build#root-git-build;0.1-SNAPSHOT pom produced in C:\Users\PC\Desktop\Pokemon MMO\.git\project\target\resolution-cache\reports\root-git-build-root-git-build-pom.xml[0m
+[0m[[0mdebug[0m] [0m	report for root-git-build#root-git-build;0.1-SNAPSHOT scala-tool produced in C:\Users\PC\Desktop\Pokemon MMO\.git\project\target\resolution-cache\reports\root-git-build-root-git-build-scala-tool.xml[0m
+[0m[[0mdebug[0m] [0m	resolve done (3913ms resolve - 67ms download)[0m
 [0m[[0minfo[0m] [0mDone updating.[0m

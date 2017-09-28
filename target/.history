@@ -71,3 +71,4 @@ run
 sbt eclipse
 eclipse
 compile
+run

@@ -1,7 +1,7 @@
 [0m[[0minfo[0m] [0mRunning World.Screen [0m
 [0m[[0mdebug[0m] [0mWaiting for threads to exit or System.exit to be called.[0m
 [0m[[0mdebug[0m] [0m  Classpath:[0m
-[0m[[0mdebug[0m] [0m	C:\Users\PC\Desktop\pukima\PukimanGame\bin\target\scala-2.11\classes[0m
+[0m[[0mdebug[0m] [0m	C:\Users\PC\Desktop\Pokemon MMO\.git\target\scala-2.11\classes[0m
 [0m[[0mdebug[0m] [0m	null\jre\lib\ext\jfxrt.jar[0m
 [0m[[0mdebug[0m] [0m	C:\Users\PC\.ivy2\cache\org.scala-lang\scala-library\jars\scala-library-2.11.8.jar[0m
 [0m[[0mdebug[0m] [0m	C:\Users\PC\.ivy2\cache\org.scalafx\scalafx_2.11\jars\scalafx_2.11-8.0.40-R8.jar[0m
@@ -27,4 +27,4 @@
 [0m[[0mdebug[0m] [0m	C:\Users\PC\.ivy2\cache\org.agrona\Agrona\jars\Agrona-0.5.5.jar[0m
 [0m[[0mdebug[0m] [0mWaiting for thread run-main-0 to terminate.[0m
 [0m[[0mdebug[0m] [0m	Thread run-main-0 exited.[0m
-[0m[[0mdebug[0m] [0mWaiting for thread New I/O boss #3 to terminate.[0m
+[0m[[0mdebug[0m] [0mWaiting for thread New I/O worker #1 to terminate.[0m
