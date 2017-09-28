@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="World.Controller.LoginController">
+   <children>
+      <TextField fx:id="IdText" layoutX="261.0" layoutY="161.0" promptText="Enter ID" />
+      <Label fx:id="IdLabel" layoutX="190.0" layoutY="165.0" text="User ID" />
+      <Label fx:id="PasswordLabel" layoutX="190.0" layoutY="192.0" text="Password" />
+      <Label layoutX="214.0" layoutY="14.0" text="POKIMON" textAlignment="CENTER" textFill="#3499e1">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="LoginButton" layoutX="215.0" layoutY="283.0" mnemonicParsing="false" onMouseClicked="#OnClick" prefHeight="25.0" prefWidth="70.0" text="Login" />
+      <Button fx:id="NewButton" layoutX="316.0" layoutY="283.0" mnemonicParsing="false" onMouseClicked="#OnClick" prefHeight="25.0" prefWidth="70.0" text="New User" />
+      <PasswordField fx:id="PassText" layoutX="261.0" layoutY="188.0" promptText="Password" />
+      <Label fx:id="FailLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="67.0" prefHeight="44.0" prefWidth="600.0" textAlignment="CENTER" />
+      <ImageView fx:id="LoadingImage" fitHeight="185.0" fitWidth="222.0" layoutX="189.0" layoutY="138.0" pickOnBounds="true" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="189.0" AnchorPane.rightAnchor="189.0" AnchorPane.topAnchor="138.0" />
+      <Label fx:id="ipLabel" layoutX="187.0" layoutY="222.0" text="IP Address" />
+      <TextField fx:id="ipText" layoutX="261.0" layoutY="218.0" promptText="IP Address" />
+   </children>
+</AnchorPane>
