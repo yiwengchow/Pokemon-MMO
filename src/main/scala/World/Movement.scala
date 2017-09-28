@@ -1,16 +1,5 @@
 package World
 
-import scalafx.Includes._
-import scalafx.scene.{Scene}
-import javafx.event.{EventHandler, ActionEvent}
-import scalafx.scene.text.Text
-import scalafx.scene.layout.{StackPane,Pane}
-import scalafx.scene.shape.{Rectangle}
-import scalafx.scene.paint.Color
-import scalafx.scene.image.{ImageView, Image}
-import javafx.animation.AnimationTimer
-import scalafx.application.JFXApp.PrimaryStage
-import java.awt.Robot
 
 class Movement(val player : Player, mapType : String, mapNum : Int) {
   

@@ -1,14 +1,13 @@
 package World.Controller
 
-import scalafx.scene._
 import scalafx.Includes._
 import scalafxml.core.macros.sfxml
-import scalafx.scene.control._
-import scalafx.scene.image._
-import scalafx.scene.layout._
-import scalafx.scene.input._
+import scalafx.scene.control.{ListView, TextArea}
+import scalafx.scene.image.{ImageView, Image}
+import scalafx.scene.layout.AnchorPane
+import scalafx.scene.input.MouseEvent
 import scalafx.collections.ObservableBuffer
-import World._
+import World.Screen
 import WorldObject._
 
 @sfxml

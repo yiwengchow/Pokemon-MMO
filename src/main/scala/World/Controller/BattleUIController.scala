@@ -1,13 +1,10 @@
 package World.Controller
 
-import scalafx.scene.input._
-import scalafx.scene._
-import scalafx.scene.control._
-import scalafx.scene.image._
-import scalafx.scene.layout._
+import scalafx.scene.input.{MouseEvent}
+import scalafx.scene.control.{Label, Button}
 import scalafxml.core.macros.sfxml
 import scalafx.Includes._
-import World._
+import World.Screen
 
 @sfxml
 class BattleUIController (
@@ -28,6 +25,7 @@ class BattleUIController (
           Screen.battleUIVisibility.value = false
           
       case "rejectButton" => 
+        Screen.senderActor ! RejectBattleReq(Screen.oppName.value, Screen.currentMapNum, Screen.currentMapType, "REJECTED!")
         Screen.battleUIVisibility.value = false
     }
   }

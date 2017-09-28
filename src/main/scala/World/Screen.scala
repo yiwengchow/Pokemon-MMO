@@ -4,28 +4,23 @@ import scalafx.application.JFXApp
 import scalafxml.core.{NoDependencyResolver, FXMLLoader}
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.scene.{Scene, Group}
-import scalafx.scene.media._
+import scalafx.scene.media.{MediaPlayer, Media}
 import scalafx.Includes._
-import scalafx.scene.image.ImageView.sfxImageView2jfx
 import scala.collection.mutable.{ListMap, ArrayBuffer}
-import java.net._
-import java.awt.event.KeyEvent
-import com.sun.media.sound.Platform
-import javafx.application.Platform
-import Controller._
-import scalafx.beans.property._
+import scalafx.beans.property.{StringProperty, ObjectProperty, BooleanProperty}
 import scalafx.collections.ObservableBuffer
-import scalafx.scene.control._
-import java.util.Collections
-import akka.actor._
+import scalafx.scene.control.{ListView, TextField}
+import akka.actor.{Actor, ActorSystem, ActorRef, Cancellable, Props}
 import scala.concurrent.duration._
-import scala.concurrent.ExecutionContext.Implicits._
-import World.Messages._
+import scala.concurrent.ExecutionContext.Implicits.global
+import Messages._
+import Controller.BattleController
 
 object Screen extends JFXApp{
   
   var clientName : String = null
   var name : String = null
+  var clientProperty = new StringProperty("")
   
   var mapArray = Array[MapGenerator]()
   var houseArray = Array[MapGenerator]()
@@ -38,6 +33,7 @@ object Screen extends JFXApp{
   
   var messageList = ListMap[Scene, (ListView[String],TextField)]()
   
+  var money = new StringProperty("644")
   var nameClick = new StringProperty("No Person")
   var oppName = new StringProperty("No Person")
   var uiDescription = new StringProperty("")
@@ -50,13 +46,12 @@ object Screen extends JFXApp{
   
   var readyActor = false
   
-  
   var battleUIVisibility = BooleanProperty(false)
   battleUIVisibility.value = false
   
   var nameList = ArrayBuffer[String]()
   
-  val sceneX = 1000
+  val sceneX = 925
   val sceneY = 500
   
   var chatMessage = new ObservableBuffer[String]
@@ -75,27 +70,25 @@ object Screen extends JFXApp{
   
   var pcUI : javafx.scene.layout.AnchorPane = null
   var shopUI : javafx.scene.layout.AnchorPane = null
+  var menuUI : javafx.scene.layout.AnchorPane = null
   
   var shopOpen = false
   var battleReady = true
   
   val system = ActorSystem(s"Client")
-  val senderActor = system.actorOf(Props[Sender], "SenderActor")
+  var senderActor : ActorRef = null
   val bgmPlayer = system.actorOf(Props[BGM], "BGMPlayer")
   val synchronizer = system.actorOf(Props[SynchronizeData], "Synchronizer")
   var syncCanceller : Cancellable = null
-//  bgmPlayer ! "START"
-  
-  val LoginUIScene = new Scene{
-    val resource = new FXMLLoader(getClass.getClassLoader.getResource("World/View/Login.fxml"),NoDependencyResolver)
-    resource.load
-    root = resource.getRoot[javafx.scene.layout.AnchorPane]
-  }
+  var battleController: BattleController#Controller = null
+  var trainerBattle: Int = 0
+  val placeholder = new AnyRef
+  var ipAddress = "127.0.0.1"
   
   class SynchronizeData extends Actor{
     override def receive = {
       case "START" => 
-          senderActor ! Synchronizer(clientPlayer)
+        senderActor ! Synchronizer(clientPlayer)
     }
   }
   
@@ -115,12 +108,22 @@ object Screen extends JFXApp{
   }
   
   var game = new PrimaryStage{
-    scene = LoginUIScene
+    resizable = false
+    scene = new Scene{
+      root = getLoginUI
+    }
   }
   
   game.show()
   
+  override def stopApp{
+    system.terminate
+  }
+  
   def initializeMap(){
+    
+    mapScene = Array[Scene]()
+    houseScene = Array[Scene]()
     
     mapArray :+= new MapGenerator(0,0,"map",1)
     mapArray :+= new MapGenerator(0,1,"map",2)
@@ -184,13 +187,19 @@ object Screen extends JFXApp{
     
     for (x <- clientPlayer.trainerPoki){
       pokemonBuffer += x.pokimon
-      println("cac")
     }
     
     for (x <- clientPlayer.pcPoki){
       pcBuffer += x.pokimon
     }
     
+  }
+  
+  def getLoginUI : javafx.scene.layout.AnchorPane ={
+    val resource = new FXMLLoader(getClass.getClassLoader.getResource("World/View/Login.fxml"),NoDependencyResolver)
+    resource.load
+    val UIroot = resource.getRoot[javafx.scene.layout.AnchorPane]
+    UIroot
   }
   
   def getPCUI : javafx.scene.layout.AnchorPane ={
@@ -229,15 +238,25 @@ object Screen extends JFXApp{
     return UIroot
   }
   
-  def getBattle() : Scene = {
+  def getMenuUI : javafx.scene.layout.AnchorPane = {
+    val Ui = new FXMLLoader(getClass.getClassLoader.getResource("World/View/MenuUI.fxml"),NoDependencyResolver)
+    Ui.load()
+    val UIroot = Ui.getRoot[javafx.scene.layout.AnchorPane]
+    UIroot.translateY = sceneY/2
+    UIroot.translateX = sceneX/2
+    return UIroot 
+  }
+  
+  def getBattle() : (Scene, BattleController#Controller) = {
     val battle = new FXMLLoader(getClass.getClassLoader.getResource("World/View/BattleScene.fxml"),NoDependencyResolver)
     battle.load()
+    val controller = battle.getController[BattleController#Controller]
     
     val battleRoot = new Scene{
       root = battle.getRoot[javafx.scene.layout.AnchorPane]
     }
     
-    return battleRoot
+    (battleRoot,controller)
   }
   
   def getCurrentScene : Scene = {
@@ -321,7 +340,7 @@ object Screen extends JFXApp{
       scene.content.add(player.charRight(x))
       }
       catch{
-        case e : IllegalArgumentException => { e.printStackTrace(); }//println(character + " aa") }
+        case e : IllegalArgumentException => {}
       }
     }
     
@@ -344,7 +363,25 @@ object Screen extends JFXApp{
       }
     }
   }
+  
+  def reinitialize(){
+    getCurrentScene.content.remove(menuUI)
+    deleteAllCharacters(getCurrentScene)
+    deleteACharacter(getCurrentScene, clientPlayer, clientMovement)
+    
+    game.scene = new Scene{
+      root = getLoginUI
+    }
+    
+    nameList.clear
+    shopOpen = false
+    readyActor = false
+    characterList.clear
+    movementList.clear
+    pokemonBuffer.clear
+    pcBuffer.clear
+    chatMessage.clear
+  }
 }
-
 
   

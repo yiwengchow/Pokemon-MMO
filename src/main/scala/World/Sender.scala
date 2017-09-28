@@ -1,20 +1,24 @@
 package World
 
-import akka.actor._
-import java.net._
-import java.io._
+import akka.actor.{ActorSystem, Actor, Props, DeadLetter}
+import akka.pattern.AskableActorSelection
+import akka.util.Timeout
+import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits.global
 import WorldObject._
 import Messages._
 import OutMessages._
 import scalafx.scene.Scene
 import javafx.application.Platform
 import scala.collection.mutable.ArrayBuffer
-import World.Controller._
+import Controller._
+import scalafx.Includes._
   
 class Sender extends Actor{
-  val loginServer = context.actorSelection("akka.tcp://PukimanServer@127.0.0.1:5150/user/LoginServer")
-  val movementServer = context.actorSelection("akka.tcp://PukimanServer@127.0.0.1:5150/user/MovementServer")
-  val battleSystem = context.actorSelection("akka.tcp://PukimanServer@127.0.0.1:5150/user/BattleServer")
+  val movementServer = context.actorSelection(s"akka.tcp://PukimanServer@${Screen.ipAddress}:2047/user/MovementServer")
+  val battleServer = context.actorSelection(s"akka.tcp://PukimanServer@${Screen.ipAddress}:2047/user/BattleServer")
+  val loginServer = context.actorSelection(s"akka.tcp://PukimanServer@${Screen.ipAddress}:2047/user/LoginServer")
+  val loginServerAsk = new AskableActorSelection(loginServer)
   
   var nameID : String = null
   var move : String = null
@@ -55,57 +59,136 @@ class Sender extends Actor{
     }
     
     case Login(name: String, password: String) => {
-      loginServer ! Login(name, password)
+      implicit val timeout = Timeout(3.seconds)
+      val fut = loginServerAsk ? Login(name, password) 
+      fut.foreach{
+        case OutSynchronizer(player: Player) => {
+//        LoginStatics.loginRegFailed.value_=(false)
+          Platform.runLater(new Runnable(){
+            override def run(){
+              val tempPlayer = new Player(player.name, player.charType)
+              tempPlayer.moneyInt = player.moneyInt
+              tempPlayer.pokiballBuffer = player.pokiballBuffer
+              tempPlayer.pokiPotionBuffer = player.pokiPotionBuffer
+              tempPlayer.pokiballs = player.pokiballs
+              tempPlayer.pokiPotion = player.pokiPotion
+              tempPlayer.trainerPoki = player.trainerPoki
+              tempPlayer.pcPoki = player.pcPoki
+              tempPlayer.coordsX = player.coordsX
+              tempPlayer.coordsY = player.coordsY
+              tempPlayer.previousCoordsX = player.previousCoordsX
+              tempPlayer.previousCoordsY = player.previousCoordsY
+              
+              tempPlayer.mapType = player.mapType
+              tempPlayer.mapNum = player.mapNum
+              tempPlayer.previousMapType = player.previousMapType
+              tempPlayer.previousMap = player.previousMap
+              self ! InitializeGame(tempPlayer)
+            }
+          })
+        }
+        case FailLogin(reason: String) => {
+          Platform.runLater(new Runnable{
+            def run{
+              LoginStatics.loginFailText.value = reason
+              LoginStatics.failBoolean.value_=(true)
+              context.stop(self)
+            }
+          })
+        }
+      }
+      fut.failed.foreach {
+        case e:Exception => {
+          Platform.runLater(new Runnable{
+            def run{
+              LoginStatics.loginFailText.value = "Request to server timeout"
+              LoginStatics.failBoolean.value_=(true)
+              context.stop(self)
+            }
+          })
+        }
+      }
     }
     
     case Register(name: String, password: String) => {
-      loginServer ! Register(name, password)
+      implicit val timeout = Timeout(3.seconds)
+      val fut = loginServerAsk ? Register(name, password) 
+      fut.foreach {
+        case FailRegister => {
+          Platform.runLater(new Runnable{
+            def run{
+              LoginStatics.loginFailText.value = "ID is already in used"
+              LoginStatics.failBoolean.value_=(true)
+              context.stop(self)
+            }
+          })
+        }
+        
+        case Registered (name: String)=> {
+          Screen.clientPlayer = new Player(name,1)
+          self ! InitializeGame(Screen.clientPlayer)
+        }
+      }
+      fut.failed.foreach{
+        case e: Exception => {
+          Platform.runLater(new Runnable{
+            def run{
+              LoginStatics.loginFailText.value = "Request to server timeout"
+              LoginStatics.failBoolean.value_=(true)
+              context.stop(self)
+            }
+          })
+        }
+      }
     }
     
     case Synchronizer(player: Player) => {
-      player.moneyInt = player.money.value.toInt
+      player.moneyInt = Screen.money.value.toInt
       player.mapType = Screen.currentMapType
       player.mapNum = Screen.currentMapNum
       loginServer ! Synchronizer(player)
     }
     
-    case BattleDetails(receipientName: String, poki: Pokimon) => {
-      battleSystem ! BattleDetails(receipientName, poki)
+    case BattleDetails(receipientName: String, poki: Pokimon, mapNum: Int, mapType: String) => {
+      battleServer ! BattleDetails(receipientName, poki, mapNum: Int, mapType: String)
     }
     
-    case BattleChoice(name: String, oppName: String, choice: String, poki: Pokimon) => {
-      battleSystem ! BattleChoice(name, oppName, choice, poki)
+    case BattleChoice(name: String, oppName: String, choice: String, poki: Pokimon, mapNum: Int, mapType: String) => {
+      battleServer ! BattleChoice(name, oppName, choice, poki, mapNum: Int, mapType: String)
     }
     
-    case ChangePokemon(oppName: String, poki: Pokimon) => {
-      battleSystem ! ChangePokemon(oppName, poki)
+    case ChangePokemon(oppName: String, poki: Pokimon, mapNum: Int, mapType: String) => {
+      battleServer ! ChangePokemon(oppName, poki, mapNum: Int, mapType: String)
     }
     
-    case EndBattle(name: String, oppName: String) => {
-      battleSystem ! EndBattle(name, oppName)
+    case EndBattle(name: String, oppName: String, mapNum: Int, mapType: String) => {
+      battleServer ! EndBattle(name, oppName, mapNum: Int, mapType: String)
     }
     
-    case OutUpdate(player) =>{
-      println("update")
-      var scene : Scene = null
-      
+    case Logout(name : String, mapType : String, mapNum : Int) => {
+      loginServer ! Logout(name, mapType, mapNum)
+    }
+    
+    case OutUpdate(player) =>{      
       Screen.synchronized{
-        scene = Screen.getScene(Screen.currentMapType, Screen.currentMapNum)
-        character = Screen.characterList(player)
-        movement = Screen.movementList(character)
-      }
-        
-      Platform.runLater(new Thread{
-        override def run(){
-          if (!Screen.currentMapType.equals("battle")){
-            Screen.deleteACharacter(scene, character, movement)
-          }
+        try{
+          val character = Screen.characterList(player)
+          val movement = Screen.movementList(character)
+          
+          Platform.runLater(new Thread{
+            override def run(){
+              Screen.deleteACharacter(Screen.getCurrentScene, character, movement)
+            }
+          })
         }
-      })
+        catch{
+          case e : NoSuchElementException => 
+        }
+      }
+      
     }
     
     case OutMessage(name, mapNum, mapType, msg) => {
-      println("message")
       nameID = name
       
       val chatList = Screen.messageList(Screen.getCurrentScene)._1
@@ -120,8 +203,7 @@ class Sender extends Actor{
     }
     
     case OutMovement(initialize, player, playerMove, playerCoordsX, playerCoordsY) => {
-      if (Screen.readyActor || initialize){
-        println(s"Movement $player $playerMove $playerCoordsX $playerCoordsY")
+      if ((Screen.readyActor || initialize)){
         nameID = player
         move = playerMove
         coordsX = playerCoordsX
@@ -133,47 +215,64 @@ class Sender extends Actor{
     }
     
     case OutBattleReq(opponent: String) => {
-      if(!Screen.battleUIVisibility.value){
-          if (Screen.clientPlayer.checkAlive){
+      if (Screen.battleReady == true){
+        if(!Screen.battleUIVisibility.value){
+          if(Screen.clientPlayer.checkAlive){
             Screen.battleUIVisibility.value = true
             
             Platform.runLater(new Thread{
-            override def run(){
-              Screen.oppName.value = f"${opponent}"
-            }
-          })
+              override def run(){
+                Screen.oppName.value = f"${opponent}"
+              }
+            })
+          }
+          else{
+            movementServer ! RejectBattleReq(opponent, Screen.currentMapNum, Screen.currentMapType, "The player have no playable pokimon, please try again later.")
+          }
         }
+        else{
+          movementServer ! RejectBattleReq(opponent, Screen.currentMapNum, Screen.currentMapType, "The player is currently having a request, please try again later.")
+        }
+      }
+      else{
+        movementServer ! RejectBattleReq(opponent, Screen.currentMapNum, Screen.currentMapType, "The player is currently in battle, please try again later.")
       }
     }
     
-    case OutBattleReqAccepted(actor: ActorRef) =>{
-      Screen.clientPlayer.previousMapType = Screen.currentMapType
-      Screen.clientPlayer.previousMap = Screen.currentMapNum
-      
-      Screen.currentMapType = "battle"
-      Screen.currentMapNum = 0
-      
-      Screen.senderActor ! MapChange(false, Screen.clientName, Screen.clientPlayer.coordsX, Screen.clientPlayer.coordsY, 
-          Screen.currentMapNum, Screen.currentMapType, Screen.clientPlayer.previousMap, Screen.clientPlayer.previousMapType)
-      
-      Platform.runLater(new Thread{
-        override def run(){
-          Screen.game.scene = Screen.getBattle
+    case RejectBattleReq(name: String, mapNum: Int, mapType: String, reason: String) => {
+      movementServer ! RejectBattleReq(name, mapNum, mapType, reason)
+    }
+  
+    case OutRejectBattleReq(reason: String) => {
+      Platform.runLater(new Runnable{
+        def run{
+          Screen.chatMessage.append(reason)
+          Screen.messageList(Screen.getCurrentScene)._1.scrollTo(Screen.chatMessage.size)
+          Screen.oppName.value = "No Person"
+          Screen.UIImage.value = null
         }
       })
-      BattleStatics.trainerBattle = 2
     }
+    
+    case OutBattleReqAccepted =>{
+      Platform.runLater(new Runnable{
+        override def run {
+          Screen.trainerBattle = 2
+          val battleStuff = Screen.getBattle
+          Screen.game.scene = battleStuff._1
+          Screen.battleController = battleStuff._2
+        }
+      })
+    }
+    
     
     case OutBattleResultDead(ownerName: String, deadPoki: Pokimon, poki: Pokimon,
       deadPokiChoice: String, alivePokiChoice: String, skillDeadPoki: Int, skillAlivePoki: Int, dmgTakenDeadPoki: Double,
       dmgTakenAlivePoki: Double) => {
       Platform.runLater(new Runnable{
         override def run {
-          println("dead")
-          BattleStatics.finished.value = false
-          BattleStatics.poki.value = false
+          Screen.battleController.reEnableButtons
           if(Screen.clientName.equals(ownerName)){
-            println("me dead")
             if(deadPokiChoice.equals("pokemon")){
               dmgBuffDebuffDisp("dmg", deadPoki, poki, skillAlivePoki, dmgTakenDeadPoki, false, true, true)
             }
@@ -181,9 +280,6 @@ class Sender extends Actor{
               if(deadPoki.speed > poki.speed){
                 dmgBuffDebuffDisp("dmg", poki, deadPoki, skillDeadPoki, dmgTakenAlivePoki, false, false, false)
                 //Thread.sleep(1000)
-                BattleStatics.oppPokimon.value_=(poki)
-                BattleStatics.oppPokiStats.value_=("")
-                BattleStatics.oppPokiStats.value_=(poki.toStringBattle)
                 dmgBuffDebuffDisp("dmg", deadPoki, poki, skillAlivePoki, dmgTakenDeadPoki, false, true, true)
               }
               else{
@@ -192,34 +288,23 @@ class Sender extends Actor{
             }
           }
           else{
-            println("you dead")
             if(deadPokiChoice.equals("pokemon")){
-              println("pokemon")
-              BattleStatics.battleLog.append(
+              Screen.battleController.logResult(
                   f"$ownerName chooses ${deadPoki.pokimon}")
-              BattleStatics.oppPokimon.value_=(deadPoki)
-              BattleStatics.oppPokimon.value.health+=dmgTakenDeadPoki
-              BattleStatics.oppPokiStats.value_=("")
-              BattleStatics.oppPokiStats.value_=(deadPoki.toStringBattle)
+              deadPoki.health+=dmgTakenDeadPoki
               dmgBuffDebuffDisp("dmg", deadPoki, poki, skillAlivePoki, dmgTakenDeadPoki, false, true, false)
             }
             else{
               if(deadPoki.speed > poki.speed){
-                println("fight")
                 dmgBuffDebuffDisp("dmg", poki, deadPoki, skillDeadPoki, dmgTakenAlivePoki, false, false, true)
                 //Thread.sleep(1000)
-                BattleStatics.currentPokimon.value.health_=(poki.health)
-                val temp = BattleStatics.oppPokiStats.value
-                BattleStatics.oppPokiStats.value_=("")
-                BattleStatics.oppPokiStats.value_=(temp)
                 dmgBuffDebuffDisp("dmg", deadPoki, poki, skillAlivePoki, dmgTakenDeadPoki, false, true, false)
               }
               else{
                 dmgBuffDebuffDisp("dmg", deadPoki, poki, skillAlivePoki, dmgTakenDeadPoki, false, true, false)
               }
             }
-            BattleStatics.finished.value = true
-            BattleStatics.poki.value = true
+            Screen.battleController.disableButtons
           }
         }
       })
@@ -230,215 +315,117 @@ class Sender extends Actor{
       dmgTakenPoki2: Double) => {
       Platform.runLater(new Runnable{
         override def run{
-          println("alive")
-          BattleStatics.oppPokiStats.value_=("")
-          BattleStatics.finished.value = false
-          BattleStatics.poki.value = false
+          Screen.battleController.reEnableButtons
           if(Screen.clientName.equals(poki1Owner)){
             if(poki1Choice.equals("pokemon") ^ poki2Choice.equals("pokemon")){
               if(poki1Choice.equals("pokemon")){
                 AliveDebuffBuffIfDmg(1, poki2, poki1, skillPoki2, dmgTakenPoki1)
-                BattleStatics.oppPokiStats.value_=("")
-                BattleStatics.oppPokiStats.value_=(poki2.toStringBattle)
               }
               else{
-                BattleStatics.battleLog.append(
+                Screen.battleController.logResult(
                     f"${Screen.oppName.value} chooses ${poki2.pokimon}")
-                BattleStatics.oppPokimon.value_=(poki2)
-                BattleStatics.oppPokimon.value.health = poki2.health+dmgTakenPoki2
-                BattleStatics.oppPokiStats.value_=("")
-                BattleStatics.oppPokiStats.value_=(BattleStatics.oppPokimon.value.toStringBattle)
                 AliveDebuffBuffIfDmg(2, poki1, poki2, skillPoki1, dmgTakenPoki2)
-                BattleStatics.oppPokiStats.value_=("")
-                BattleStatics.oppPokiStats.value_=(BattleStatics.oppPokimon.value.toStringBattle)
               }
             }
             else{
               if(poki1Choice.equals("pokemon")){
-                BattleStatics.battleLog.append(
+                Screen.battleController.logResult(
                     f"${Screen.oppName.value} chooses ${poki2.pokimon}")
-                BattleStatics.oppPokimon.value_=(poki2)
-                BattleStatics.oppPokiStats.value_=("")
-                BattleStatics.oppPokiStats.value_=(poki2.toStringBattle)
+                Screen.battleController.setOppPokimon(poki2)
               }
               else{
                 if(poki1.speed > poki2.speed){//debuff/buff
-                  
                   AliveDebuffBuffIfDmg(2, poki1, poki2, skillPoki1, dmgTakenPoki2)
-                    
-                  BattleStatics.oppPokiStats.value_=("")
-                  BattleStatics.oppPokiStats.value_=(poki2.toStringBattle)
-                    
-                    
                   AliveDebuffBuffIfDmg(1, poki2, poki1, skillPoki2, dmgTakenPoki1)
-                  BattleStatics.oppPokiStats.value_=("")
-                  BattleStatics.oppPokiStats.value_=(poki2.toStringBattle)
                 }
                 else{   
                   AliveDebuffBuffIfDmg(1, poki2, poki1, skillPoki2, dmgTakenPoki1)
-                    
-                  BattleStatics.oppPokiStats.value_=("")
-                  BattleStatics.oppPokiStats.value_=(poki2.toStringBattle)
-                  
                   AliveDebuffBuffIfDmg(2, poki1, poki2, skillPoki1, dmgTakenPoki2)
-                  
-                  BattleStatics.oppPokiStats.value_=("")
-                  BattleStatics.oppPokiStats.value_=(poki2.toStringBattle)
                 }
               }
             }
+            Screen.battleController.setPlayerPokimon(poki1)
+            Screen.battleController.setOppPokimon(poki2)
           }
           else{
             if(poki1Choice.equals("pokemon") ^ poki2Choice.equals("pokemon")){
               if(poki1Choice.equals("pokemon")){
-                BattleStatics.battleLog.append(
+                Screen.battleController.logResult(
                     f"${Screen.oppName.value} chooses ${poki1.pokimon}")
-                BattleStatics.oppPokimon.value_=(poki1)
-                BattleStatics.oppPokimon.value.health = poki1.health+dmgTakenPoki1
-                BattleStatics.oppPokiStats.value_=("")
-                BattleStatics.oppPokiStats.value_=(BattleStatics.oppPokimon.value.toStringBattle)
-                
                 AliveDebuffBuffIfDmg(2, poki2, poki1, skillPoki2, dmgTakenPoki1)
-                
-                BattleStatics.oppPokiStats.value_=("")
-                BattleStatics.oppPokiStats.value_=(poki1.toStringBattle)
               }
               else{
                 AliveDebuffBuffIfDmg(1, poki1, poki2, skillPoki1, dmgTakenPoki2)
-                
-                BattleStatics.oppPokiStats.value_=("")
-                BattleStatics.oppPokiStats.value_=(BattleStatics.oppPokimon.value.toStringBattle)
               }
             }
             else{
               if(poki1Choice.equals("pokemon")){
-                BattleStatics.battleLog.append(
+                Screen.battleController.logResult(
                     f"${Screen.oppName.value} chooses ${poki1.pokimon}")
-                BattleStatics.oppPokimon.value_=(poki1)
-                BattleStatics.oppPokiStats.value_=("")
-                BattleStatics.oppPokiStats.value_=(poki1.toStringBattle)
+                Screen.battleController.setOppPokimon(poki1)
               }
               else{
                 if(poki1.speed > poki2.speed){//debuff/buff
                   AliveDebuffBuffIfDmg(1, poki1, poki2, skillPoki1, dmgTakenPoki2)
-                    
-                    
-                  BattleStatics.oppPokiStats.value_=("")
-                  BattleStatics.oppPokiStats.value_=(poki1.toStringBattle)
-                    
                   AliveDebuffBuffIfDmg(2, poki2, poki1, skillPoki2, dmgTakenPoki1)
-                    
-                  BattleStatics.oppPokiStats.value_=("")
-                  BattleStatics.oppPokiStats.value_=(poki1.toStringBattle)
                 }
                 else{
-                  
                   AliveDebuffBuffIfDmg(2, poki2, poki1, skillPoki2, dmgTakenPoki1)
-                    
-                  BattleStatics.oppPokiStats.value_=("")
-                  BattleStatics.oppPokiStats.value_=(poki1.toStringBattle)
-                    
-                    
                   AliveDebuffBuffIfDmg(1, poki1, poki2, skillPoki1, dmgTakenPoki2)
-                    
-                  BattleStatics.oppPokiStats.value_=("")
-                  BattleStatics.oppPokiStats.value_=(poki1.toStringBattle)
                 }
               }
             }
+            Screen.battleController.setPlayerPokimon(poki2)
+            Screen.battleController.setOppPokimon(poki1)
           }
           }
       })
     }
     case OutBattleDetails(oppPoki: Pokimon) => {
-      BattleStatics.oppPokimon.value_=(oppPoki)
-      BattleStatics.placeholder.synchronized{
-        BattleStatics.placeholder.wait(1000)
-      }
-      BattleStatics.oppPokiStats.value_=(BattleStatics.oppPokimon.value.toStringBattle)
+      Platform.runLater(new Runnable{
+        override def run{
+          while(!(Screen.battleController != null)){}
+          Screen.battleController.setOppPokimon(oppPoki)
+        }
+      })
     }
     case OutChangePokimon(poki: Pokimon) => {
       Platform.runLater(new Runnable{
         override def run{
-          BattleStatics.battleLog.append(
+          Screen.battleController.logResult(
               f"${Screen.oppName.value} chooses ${poki.pokimon}")
-          BattleStatics.oppPokimon.value = poki
-          BattleStatics.oppPokiStats.value_=(poki.toStringBattle)
-          BattleStatics.finished.value = false
-          BattleStatics.poki.value = false
+          
+          Screen.battleController.setOppPokimon(poki)
+          
+          Screen.battleController.reEnableButtons
         }
       })
     }
-    case OutEndBattle => {
-      Screen.currentMapType = Screen.clientPlayer.previousMapType
-      Screen.currentMapNum = Screen.clientPlayer.previousMap
-      
-      Screen.clientPlayer.previousMapType = "battle"
-      Screen.clientPlayer.previousMap = 0
-      
-      Screen.uiDescription.value = ""
-      
-      Platform.runLater(new Thread{
-        override def run(){
-          BattleStatics.endBattle.value = true
-          
-          Screen.senderActor ! MapChange(false, Screen.clientName, Screen.clientPlayer.coordsX, Screen.clientPlayer.coordsY, 
-              Screen.currentMapNum, Screen.currentMapType, Screen.clientPlayer.previousMap, Screen.clientPlayer.previousMapType)
-              
-          Screen.game.scene = Screen.getScene(Screen.currentMapType, Screen.currentMapNum)
-          Screen.oppName.value_=("")
-          Screen.scheduleSync
-        }
-      })
-    }
-    case OutSynchronizer(player: Player) => {
-      LoginStatics.loginRegFailed.value_=(false)
-      Platform.runLater(new Runnable(){
-        override def run(){
-          val tempPlayer = new Player(player.name, player.charType)
-          tempPlayer.money.value = player.moneyInt.toString
-          tempPlayer.pokiballBuffer = player.pokiballBuffer
-          tempPlayer.pokiPotionBuffer = player.pokiPotionBuffer
-          tempPlayer.pokiballs = player.pokiballs
-          tempPlayer.pokiPotion = player.pokiPotion
-          tempPlayer.trainerPoki = player.trainerPoki
-          tempPlayer.pcPoki = player.pcPoki
-          tempPlayer.coordsX = player.coordsX
-          tempPlayer.coordsY = player.coordsY
-          tempPlayer.previousCoordsX = player.previousCoordsX
-          tempPlayer.previousCoordsY = player.previousCoordsY
-          
-          if (player.mapType == "battle"){
-            tempPlayer.mapType = player.previousMapType
-            tempPlayer.mapNum = player.previousMap
+    case OutEndBattle(name: String) => {
+      Platform.runLater(new Runnable{
+        override def run{
+          Screen.battleController.setEndBattlePlayer(name)
+          if(name.equals(Screen.clientName)){
+            Screen.battleController.logResult(s"Player has lost")
           }
-          
-          tempPlayer.mapType = player.mapType
-          tempPlayer.mapNum = player.mapNum
-          tempPlayer.previousMapType = player.previousMapType
-          tempPlayer.previousMap = player.previousMap
-          self ! InitializeGame(tempPlayer)
+          else{
+            Screen.battleController.logResult(s"${Screen.oppName.value} has lost")
+          }
         }
       })
-    }
-    
-    case FailLogin | FailRegister => {
-      println("failed")
-      LoginStatics.failBoolean.value_=(true)
-    }
-    
-    case Registered (name: String)=> {
-      LoginStatics.loginRegFailed.value_=(false)
-      Screen.clientPlayer = new Player(name,1)
-      self ! InitializeGame(Screen.clientPlayer)
     }
     
     case InitializeGame(player : Player) =>{
+      LoginStatics.failBoolean.removeListener(LoginStatics.changeListener)
       Screen.clientPlayer = player
       Screen.clientName = player.name
+      Screen.clientProperty.value = player.name
       Screen.name = player.name
+      Screen.money.value = player.moneyInt.toString
       
-      Screen.initializeMap()
+      if (Screen.mapScene.size.equals(0)){
+        Screen.initializeMap()
+      }
       
       Screen.currentMapNum = player.mapNum
       Screen.currentMapType = player.mapType 
@@ -450,6 +437,7 @@ class Sender extends Actor{
       
       Screen.pcUI = Screen.getPCUI
       Screen.shopUI = Screen.getShopUI
+      Screen.menuUI = Screen.getMenuUI
       
       Platform.runLater(new Runnable{
         def run{
@@ -461,6 +449,28 @@ class Sender extends Actor{
       })
     }
     
+    case LogoutSuccessful => {
+      Platform.runLater(new Runnable{
+        def run{
+          Screen.system.stop(Screen.senderActor)
+          Screen.reinitialize
+        }
+      })
+    }
+    
+    case DeadLetter(msg, from, to) =>{
+      Platform.runLater(new Runnable{
+        def run{
+            Screen.system.stop(Screen.senderActor)
+            Screen.reinitialize
+            LoginStatics.failBoolean.value = false
+            LoginStatics.loginFailText.value = "Disconnected"
+        }
+      })
+      
+      LoginStatics.failBoolean.value_=(true)
+    }
+    
     case meh: Any => 
       println(meh.getClass)
   }
@@ -470,47 +480,47 @@ class Sender extends Actor{
       if(attacker.skillSet(attackerMove).power < 0 && attacker.skillSet(attackerMove).description.contains("defense")){
         dmgBuffDebuffDisp("debuff", receiver, attacker, attackerMove, dmgDealt, true, false, true)
         if(typeMethod == 1){
-          BattleStatics.currentPokimon.value.debuffSkill(true, dmgDealt.ceil.toInt)
+          Screen.battleController.debuffOrBuffSkill(true, true, dmgDealt.ceil.toInt)
         }
         else{
-          BattleStatics.oppPokimon.value_=(receiver)
+          Screen.battleController.setOppPokimon(attacker)
         }
       }
       else if(attacker.skillSet(attackerMove).power > 0 && attacker.skillSet(attackerMove).description.contains("defense")){
         dmgBuffDebuffDisp("buff", attacker, attacker, attackerMove, dmgDealt, true, false, false)
         if(typeMethod == 1){
-          BattleStatics.oppPokimon.value_=(attacker)
+          Screen.battleController.setOppPokimon(attacker)
         }
         else{
-          BattleStatics.currentPokimon.value.buffSkill(true, dmgDealt.ceil.toInt)
+          Screen.battleController.debuffOrBuffSkill(false, true, dmgDealt.ceil.toInt)
         }
       }
       else if(attacker.skillSet(attackerMove).power < 0 && attacker.skillSet(attackerMove).description.contains("attack")){
         dmgBuffDebuffDisp("debuff", receiver, attacker, attackerMove, dmgDealt, false, false, true)
         if(typeMethod == 1){
-          BattleStatics.currentPokimon.value.debuffSkill(false, dmgDealt.ceil.toInt)
+          Screen.battleController.debuffOrBuffSkill(true, false, dmgDealt.ceil.toInt)
         }
         else{
-          BattleStatics.oppPokimon.value_=(receiver)
+          Screen.battleController.setOppPokimon(attacker)
         }
       }
       else if(attacker.skillSet(attackerMove).power > 0 && attacker.skillSet(attackerMove).description.contains("attack")){
         dmgBuffDebuffDisp("buff", attacker, attacker, attackerMove, dmgDealt, false, false, false)
         if(typeMethod == 1){
-          BattleStatics.oppPokimon.value_=(attacker)
+          Screen.battleController.setOppPokimon(attacker)
         }
         else{
-          BattleStatics.currentPokimon.value.buffSkill(false, dmgDealt.ceil.toInt)
+          Screen.battleController.debuffOrBuffSkill(false, false, dmgDealt.ceil.toInt)
         }
       }
     }
     else{//skill that attacks people
       dmgBuffDebuffDisp("dmg", receiver, attacker, attackerMove, dmgDealt, false, false, false)
       if(typeMethod == 1){
-        BattleStatics.currentPokimon.value.health_=(receiver.health)
+        Screen.battleController.setPlayerPokimon(receiver)
       }
       else{
-        BattleStatics.oppPokimon.value_=(receiver)
+        Screen.battleController.setOppPokimon(receiver)
       }
     }
   }
@@ -519,58 +529,55 @@ class Sender extends Actor{
       defense: Boolean, isDead: Boolean, owner: Boolean){
     typeString match {
       case "dmg" =>{
-        BattleStatics.battleLog.append(
+        Screen.battleController.logResult(
             f"${doing.pokimon} use ${doing.skillSet(skill).name}")
         
-        BattleStatics.battleLog.append(
+        Screen.battleController.logResult(
             f"${receiving.pokimon} suffers ${dmg}%.2f")
       }
       case "buff" =>{
         if(defense){
-          BattleStatics.battleLog.append(
+          Screen.battleController.logResult(
               f"${doing.pokimon} use ${doing.skillSet(skill).name}")
           
-          BattleStatics.battleLog.append(
+          Screen.battleController.logResult(
               f"${doing.pokimon} defense is increased by ${dmg}%.2f")
         }
         else{
-          BattleStatics.battleLog.append(
+          Screen.battleController.logResult(
               f"${doing.pokimon} use ${doing.skillSet(skill).name}")
           
-          BattleStatics.battleLog.append(
+          Screen.battleController.logResult(
               f"${doing.pokimon} attack is increased by ${dmg}%.2f")
         }
       }
       case "debuff" => {
         if(defense){
-          BattleStatics.battleLog.append(
+          Screen.battleController.logResult(
               f"${doing.pokimon} use ${doing.skillSet(skill).name}")
           
-          BattleStatics.battleLog.append(
+          Screen.battleController.logResult(
               f"${receiving.pokimon} defense is reduced by ${dmg}%.2f")
         }
         else{
-          BattleStatics.battleLog.append(
+          Screen.battleController.logResult(
               f"${doing.pokimon} use ${doing.skillSet(skill).name}")
           
-          BattleStatics.battleLog.append(
+          Screen.battleController.logResult(
               f"${receiving.pokimon} attack is reduced by ${dmg}%.2f")
         }
       }
     }
     if(isDead && owner){
-      BattleStatics.currentPokimon.value.health_=(receiving.health)
-      BattleStatics.oppPokiStats.value_=("")
-      BattleStatics.oppPokiStats.value_=(doing.toStringBattle)
-      BattleStatics.battleLog.append(
+      Screen.battleController.setPlayerPokimon(receiving)
+      Screen.battleController.setOppPokimon(doing)
+      Screen.battleController.logResult(
           f"${Screen.clientName}'s ${receiving.pokimon} has fainted")
     }
     else if(isDead && !owner){
-      BattleStatics.oppPokimon.value_=(receiving)
-      BattleStatics.oppPokiStats.value_=("")
-      BattleStatics.oppPokiStats.value_=(receiving.toStringBattle)
-      BattleStatics.battleLog.append(
-          f"${Screen.oppName}'s ${receiving.pokimon} has fainted")
+      Screen.battleController.setOppPokimon(receiving)
+      Screen.battleController.logResult(
+          f"${Screen.oppName.value}'s ${receiving.pokimon} has fainted")
     }
   }
   

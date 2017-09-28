@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="150.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="World.Controller.MenuController">
+   <children>
+      <Button fx:id="logoutButton" layoutX="49.0" layoutY="131.0" mnemonicParsing="false" onMouseClicked="#onClickLogout" text="Logout" />
+      <Button fx:id="guideButton" layoutX="52.0" layoutY="88.0" mnemonicParsing="false" onMouseClicked="#onClickGuide" text="Guide" />
+   </children>
+</AnchorPane>

@@ -1,6 +1,5 @@
 package World
 
-import scalafx.Includes._
 import scalafx.scene.image.{ImageView, Image}
 
 class Stuff {

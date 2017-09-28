@@ -1,20 +1,43 @@
 package WorldObject
 
 import scala.util.Random
-import scala.util.control.Breaks._
-import scalafx.scene.image._
+import scala.util.control.Breaks
+import scalafx.scene.image.Image
 
 class Pokimon (pokiName: String, elem : String, level: Int) extends Serializable{
   
   var pokiLevel = level
   private var baseDmg = (Random.nextInt(3) + 3) + (10)*level
   private var baseDef = (Random.nextInt(3) + 3) + (10)*level
+  var _battleDefense = baseDef
+  var _battleDamage = baseDmg
   var _health = (40 * Random.nextDouble() + 80) + (10)*level
   var maxHealth = _health
   val pokimon = pokiName
   val element = elem
   var speed = (Random.nextInt(4)+1)*level
   val imagePath = Pokimon.getImagePath(pokimon, element)
+  
+  def battleDamage_=(value: Int){
+    if(value > _battleDamage)
+      _battleDamage = baseDmg
+    else if(value < 0)
+      _battleDamage = 0
+    else
+      _battleDamage = value
+  }
+  
+  def battleDamage : Int = _battleDamage
+  def battleDefense : Int = _battleDefense
+  
+  def battleDefense_=(value: Int){
+    if(value > _battleDefense)
+      _battleDefense = baseDef
+    else if(value < 0)
+      _battleDefense = 0
+    else
+      _battleDefense = value
+  }
   
   def health_= (value:Double) : Unit ={
     if(value <= 0)
@@ -46,21 +69,22 @@ class Pokimon (pokiName: String, elem : String, level: Int) extends Serializable
   
   def buffSkill(buffDef : Boolean, value: Int){
     if(buffDef)
-      baseDef+=value
+      battleDefense+=value
     else
-      baseDmg+=value
+      battleDamage+=value
   }
   
   def debuffSkill(debuffDef : Boolean, value: Int){
     if(debuffDef)
-      baseDef+=value
+      battleDefense+=value
     else
-      baseDmg+=value
+      battleDamage+=value
   }
   
   def levelUp : (Int,Skill) = {
     var fullSkillCounter = 0
     var skill = Skill.SkillData(pokiLevel.toString(),elem)
+    var message = ""
     if(pokiLevel != 50){
       pokiLevel+=1
       baseDmg += 10
@@ -72,7 +96,6 @@ class Pokimon (pokiName: String, elem : String, level: Int) extends Serializable
           fullSkillCounter=4
         }
         else{
-          World.Controller.BattleStatics.battleLog.append(f"$pokimon learned ${skill.name}")
           skillSet.append(skill)
         }
       }
@@ -83,16 +106,27 @@ class Pokimon (pokiName: String, elem : String, level: Int) extends Serializable
   override def equals(o: Any): Boolean = {
     val obj = o.asInstanceOf[Pokimon]
     var correctness = 0;
-    if(health == obj.health) correctness+=1
-    if(level == obj.pokiLevel) correctness+=1
+    if(maxHealth == obj.maxHealth) correctness+=1
+    if(pokiLevel == obj.pokiLevel) correctness+=1
     if(pokimon.equals(obj.pokimon)) correctness+=1
     if(element.equals(obj.element)) correctness+=1
     if(speed == obj.speed) correctness+=1
     if(correctness == 5) true else false
   }
   
+  def copy(poki: Pokimon){
+    health = poki.health
+    battleDamage = poki.battleDamage
+    battleDefense = poki.battleDefense
+  }
+  
+  def reset{
+    battleDamage = baseDmg
+    battleDefense = baseDef
+  }
+  
   def toStringBattle : String ={
-    f"${pokimon.toUpperCase}\nElement: $element\nLv: $pokiLevel\nHealth: $health%.0f\nDef: $baseDef\nAtk: $baseDmg"
+    f"${pokimon.toUpperCase}\nElement: $element\nLv: $pokiLevel\nHealth: $health%.3f\nDef: $battleDefense\nAtk: $battleDamage"
   }
   
   override def toString : String = {

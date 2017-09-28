@@ -1,18 +1,17 @@
 package World.Controller
 
 import scala.util.Random
-import scala.util.control._
-import scala.collection.mutable._
-import scalafx.scene.input._
-import scalafx.scene._
-import scalafx.scene.control._
-import scalafx.scene.image._
-import scalafx.scene.layout._
-import scalafx.beans.property._
-import scalafx.scene.control.cell._
+import scala.util.control.Breaks
+import scala.collection.mutable.{ArrayBuffer}
+import scalafx.scene.input.{MouseEvent}
+import scalafx.scene.control.{Button, ListView, TextArea}
+import scalafx.scene.image.{Image, ImageView}
+import scalafx.scene.layout.GridPane
+import scalafx.beans.property.{IntegerProperty, BooleanProperty, ObjectProperty, StringProperty}
+import scalafx.scene.control.cell.TextFieldListCell
 import scalafxml.core.macros.sfxml
 import scalafx.Includes._
-import javafx.beans.value._
+import javafx.beans.value.{ChangeListener, ObservableValue}
 import WorldObject._
 import World._
 import World.Messages._
@@ -58,20 +57,33 @@ class BattleController (
     private val OppImg: ImageView) {
   
   Screen.syncCanceller.cancel
+  val mapNum = Screen.currentMapNum
+  val mapType = Screen.currentMapType
+  val breakableLoop = new Breaks
   ExitButton.visible = false
   CancelButton.visible = false
+  val client = Screen.clientPlayer
+  val pokimon = client.trainerPoki
+  var trainerBattle = Screen.trainerBattle  //0 for wild, 1 for gym, 2 for player
+  val finished = BooleanProperty(true)
+  val poki = BooleanProperty(true)
+  val dead = BooleanProperty(false)
+  var opponentName = Screen.oppName.value
+  val oppPokimons = ArrayBuffer[Pokimon]()
+  var oppPokimon = new Pokimon("a","water",2)
+  var currentPokimon = pokimonStarterChoser
+  val battleLog = new scalafx.collections.ObservableBuffer[String]()
+  var amountFight = 0
+  
+  if(trainerBattle == 2)
+    Screen.senderActor ! BattleDetails(opponentName, currentPokimon, mapNum, mapType)
+    
+  val countdown = IntegerProperty(60)
   var oppPot = 0
   var oppSupPot = 0
   var oppHypPot = 0
   var oppAvgLevel = 0
-  val client = Screen.clientPlayer
-  var currentElement = ""
-  val pokimon = client.trainerPoki
-  val breakableLoop = new Breaks
-  BattleStatics.currentPokimon.value_=(pokimonStarterChoser)
-  PlayerImg.image.value_=(Pokimon.getImage(BattleStatics.currentPokimon.value.imagePath))
-  OppTextArr.text.bind(BattleStatics.oppPokiStats)
-  PlayerTextArr.text.bind(BattleStatics.playerPokiInfo)
+  PlayerImg.image.value_=(Pokimon.getImage(currentPokimon.imagePath))
   val pokiButtonArray = ArrayBuffer[Button](PokemonOne,PokemonTwo,PokemonThree,PokemonFour,PokemonFive,PokemonSix)
   val ballButtonArray = ArrayBuffer[Button](Pokiball,GreatPokiball,UltraPokiball)
   val potionButtonArray = ArrayBuffer[Button](Potion,SuperPotion,HyperPotion)
@@ -81,86 +93,146 @@ class BattleController (
   var skillOverride: Skill = null
   var levelUpBool = false
   
-  BattleLog.cellFactory = (chatList) =>
-    new TextFieldListCell[String](){
-      prefWidth = 452
-      wrapText = true
-    }
-    
-  BattleLog.items = BattleStatics.battleLog
-  
-  val listener = new ChangeListener[String] {
-    override def changed(obVal: ObservableValue[_ <: String], oldVal: String, newVal: String) {
-      println("ass" + BattleStatics.oppPokimon.value.imagePath)
-      OppImg.image = (Pokimon.getImage(BattleStatics.oppPokimon.value.imagePath))
-      BattleStatics.playerPokiInfo.value_=(BattleStatics.currentPokimon.value.toStringBattle)
-      BattleLog.scrollTo(BattleStatics.battleLog.length)
-      if(!newVal.equals("")){
-        Platform.runLater(new Thread{
-          override def run(){
-            Checker
-          }
-        })
-      }
-    }
-  }
-  BattleStatics.oppPokiStats.addListener(listener)
-  BattleStatics.placeholder.synchronized{
-    BattleStatics.placeholder.notify
-  }
-  
-  val listenerEnd = new ChangeListener[java.lang.Boolean] {
-    override def changed(obVal: ObservableValue[_ <: java.lang.Boolean], oldVal: java.lang.Boolean, newVal: java.lang.Boolean) {
-      OppTextArr.text.unbind
-      PlayerTextArr.text.unbind
-      FightButton.disable.unbind
-      PokiButton.disable.unbind
-      BallButton.disable.unbind
-      PotButton.disable.unbind
-      RunButton.disable.unbind
-      BattleStatics.amountFight = 0
-      Screen.oppName.value = ""
-      BattleStatics.oppPokimon.value = new Pokimon("a","water",2)
-      BattleStatics.oppPokimons.clear
-      BattleStatics.battleLog.clear
-      removeListener
-    }
-  }
-  BattleStatics.endBattle.addListener(listenerEnd)
-  
-  def removeListener{
-    BattleStatics.oppPokiStats.removeListener(listener)
-    BattleStatics.oppPokiStats.value = ""
-    BattleStatics.endBattle.removeListener(listenerEnd)
-    BattleStatics.endBattle.value = false
-    Screen.battleReady = true
-  }
-  
-  val opponentName = Screen.oppName.value
-    
-  BattleStatics.playerPokiInfo.value = BattleStatics.currentPokimon.value.toStringBattle
-  InfoText.text = client.name + " Choose one"
-  FightButton.disable.bind(BattleStatics.dead)
-  PokiButton.disable.bind(BattleStatics.poki)
-  BallButton.disable.bind(BattleStatics.finished)
-  PotButton.disable.bind(BattleStatics.finished)
-  RunButton.disable.bind(BattleStatics.finished)
+  PlayerTextArr.text = currentPokimon.toStringBattle
+  InfoText.text = client.name + " please choose one"
+  FightButton.disable.bind(dead)
+  PokiButton.disable.bind(poki)
+  BallButton.disable.bind(finished)
+  PotButton.disable.bind(finished)
+  RunButton.disable.bind(finished)
   var potting = false
   var potpower = 0
     
   Initialize
   
-  if(BattleStatics.trainerBattle == 2)
-    Screen.senderActor ! BattleDetails(opponentName, BattleStatics.currentPokimon.value)
-  else
-    BattleStatics.oppPokiStats.value = BattleStatics.oppPokimon.value.toStringBattle
+  
+  BattleLog.cellFactory = (chatList) =>
+    new TextFieldListCell[String](){
+      prefWidth = 254
+      wrapText = true
+    }
+    
+  BattleLog.items = battleLog
+  
+  val listenerCountdown = new ChangeListener[java.lang.Number] {
+    override def changed(obVal: ObservableValue[_ <: java.lang.Number], oldVal: java.lang.Number, newVal: java.lang.Number) {
+      if(newVal.intValue%10 == 0 && newVal.intValue != 60){
+        Platform.runLater(new Runnable{
+          def run{
+            if(finished.value){
+              logResult(s"The opponent have ${newVal.intValue} seconds left to choose an option")
+              BattleLog.scrollTo(battleLog.size)
+            }
+            else{
+              logResult(s"You have ${newVal.intValue} seconds left to choose an option")
+              BattleLog.scrollTo(battleLog.size)
+            }
+          }
+        })
+      }
+      if(newVal == 0){
+        Screen.senderActor ! EndBattle(client.name, opponentName, mapNum, mapType)
+        LevelLoop
+      }
+    }
+  }
+  
+  if(trainerBattle == 2){
+    countdown.addListener(listenerCountdown)
+    
+    new Thread(new Runnable{
+      override def run {
+        while(countdown.value != 0){
+          Thread.sleep(1000)
+          countdown.value = countdown.value - 1
+        }
+      }
+    }).start
+  }
+  
+  def debuffOrBuffSkill(debuff: Boolean, defense: Boolean, amount: Int){
+    if(debuff)
+      currentPokimon.debuffSkill(defense, amount)
+    else
+      currentPokimon.buffSkill(defense, amount)
+  }
+  
+  def setPokimons(pokis: ArrayBuffer[Pokimon]){
+    oppPokimons.appendAll(pokis)
+    if(trainerBattle == 1){
+      setOppPokimon(oppPokimons(0))
+      var averageLevel = 0
+      var temp = 0
+      var tempCount = 0
+      for(x <- oppPokimons){
+        temp = temp + x.pokiLevel
+        tempCount+=1
+      }
+      averageLevel = temp/tempCount
+      oppAvgLevel = averageLevel
+      oppHypPot = averageLevel/7
+      averageLevel-=oppPot
+      oppSupPot = averageLevel/5
+      averageLevel-=oppSupPot
+      oppPot = averageLevel
+    }
+  }
+  
+  def setEndBattlePlayer(loser: String){
+    if(loser.equals(client.name)){
+      PlayerTextArr.text = "Player has lost".toLowerCase
+    }
+    else{
+      PlayerTextArr.text = "Player has won!!".toUpperCase
+    }
+    LevelLoop
+  }
+  
+  def logResult (result: String){
+    battleLog.append(result)
+  }
+  
+  def reEnableButtons {
+    finished.value = false
+    poki.value = false
+    dead.value = false
+  }
+  
+  def disableButtons {
+    finished.value = true
+    poki.value = true
+    dead.value = true
+  }
+  
+  def updateStats{
+    PlayerTextArr.text.value = (currentPokimon.toStringBattle)
+    OppTextArr.text.value = oppPokimon.toStringBattle
+    Checker
+  }
+  
+  def setPlayerPokimon(poki: Pokimon){
+    currentPokimon.copy(poki)
+    BattleLog.scrollTo(battleLog.length)
+    updateStats
+    Checker
+  }
+  
+  def setOppPokimon(poki: Pokimon){
+    oppPokimon = poki
+    countdown.value = 60
+    OppImg.image = (Pokimon.getImage(oppPokimon.imagePath))
+    BattleLog.scrollTo(battleLog.length)
+    updateStats
+    Checker
+  }
+    
+  
   
   def pokimonStarterChoser: Pokimon = {
     var chosen: Pokimon = null
     breakableLoop.breakable{
       for(x <- pokimon){
         if(x.health > 0){
-          println(x.health)
           chosen = x
           breakableLoop.break
         }
@@ -184,51 +256,34 @@ class BattleController (
     PotPane.visible = false
     SkillPane.visible = false
     BallPane.visible = false
-    BattleStatics.poki.value = false
+    poki.value = false
     Screen.battleReady = false
-    if(BattleStatics.trainerBattle == 1){
-      BattleStatics.oppPokimon.value = BattleStatics.oppPokimons(0)
-      var averageLevel = 0
-      var temp = 0
-      var tempCount = 0
-      for(x <- BattleStatics.oppPokimons){
-        temp = temp + x.pokiLevel
-        tempCount+=1
-      }
-      averageLevel = temp/tempCount
-      oppAvgLevel = averageLevel
-      oppHypPot = averageLevel/7
-      averageLevel-=oppPot
-      oppSupPot = averageLevel/5
-      averageLevel-=oppSupPot
-      oppPot = averageLevel
-    }
-    if(BattleStatics.trainerBattle == 2){
-      BattleStatics.finished.value = true
+    
+    if(trainerBattle == 2){
+      finished.value = true
       BallButton.disable.unbind
       PotButton.disable.unbind
       RunButton.disable.unbind
     }
-    else if(BattleStatics.trainerBattle == 1){
-      BattleStatics.finished.value = true
+    else if(trainerBattle == 1){
+      finished.value = true
       RunButton.disable.unbind
       BallButton.disable.unbind
-      BattleStatics.finished.value = false
+      finished.value = false
     }
     else
-      BattleStatics.finished.value = false
+      finished.value = false
   }
   
   def Checker{
     var index = 0
     for(x <- 0 to pokimon.size-1){
-      if(BattleStatics.currentPokimon.value.equals(pokimon(x))){
+      if(currentPokimon.equals(pokimon(x))){
         index = x
-        println("Found you" + pokimon(x).pokimon)
       }
     }
     
-    val skill = BattleStatics.currentPokimon.value.skillSet
+    val skill = currentPokimon.skillSet
     for(x <- 0 to skillButtonArray.length-1){
       try{
         skillButtonArray(x).disable = false
@@ -243,15 +298,20 @@ class BattleController (
     }
     
     try{
-      if(BattleStatics.currentPokimon.value.health <= 0|| BattleStatics.oppPokimon.value.health <= 0){
-        BattleStatics.finished.value = true
-        BattleStatics.dead.value = true
+      if(currentPokimon.health <= 0|| oppPokimon.health <= 0){
+        if(currentPokimon.health <= 0 && trainerBattle == 2){
+          finished.value = false
+        }
+        else{
+          finished.value = true
+        }
+        dead.value = true
       }
       else{
-        BattleStatics.finished.value = false
-        BattleStatics.dead.value = false
+        finished.value = false
+        dead.value = false
       }
-      if(BattleStatics.oppPokimon.value.health <= 0 && BattleStatics.trainerBattle == 0){
+      if(oppPokimon.health <= 0 && trainerBattle == 0){
         LevelLoop
       }
     } 
@@ -263,7 +323,7 @@ class BattleController (
     for(x <- 0 to pokiButtonArray.size-1){
       if(!pokiButtonArray(x).text.value.equals("-")){
         if(pokimon(x).health <= 0){
-          println(pokimon(x).pokimon+ " is dead")
+          BattleLog.scrollTo(battleLog.size)
           pokiButtonArray(x).disable = true
           deathCounter+=1
         }
@@ -279,27 +339,31 @@ class BattleController (
     pokiButtonArray(index).disable = true
     
     if(deathCounter == 6 && !levelUpBool){
-      if(BattleStatics.trainerBattle == 2){
-        Screen.senderActor ! EndBattle(Screen.clientName, opponentName)
+      if(trainerBattle == 2){
+        Screen.senderActor ! EndBattle(client.name, opponentName, mapNum, mapType)
       }
       else{
-        client.money.value = (client.money.value.toInt * 0.9).floor.toInt.toString
-        println("ONE")
-        BattleStatics.amountFight = 0
+        Screen.money.value = (Screen.money.value.toInt * 0.9).floor.toInt.toString
+        if(trainerBattle != 2){
+          logResult("Player has lost")
+          BattleLog.scrollTo(battleLog.size)
+        }
+        amountFight = 0
         LevelLoop
       }
     }
     
-    if(BattleStatics.trainerBattle == 1 && !levelUpBool){
+    if(trainerBattle == 1 && !levelUpBool){
       var opponentDeathCounter = 0
-      for(x <- BattleStatics.oppPokimons){
+      for(x <- oppPokimons){
         if(x.health <= 0){
           opponentDeathCounter+=1
         }
       }
-      if(opponentDeathCounter == BattleStatics.oppPokimons.length){
-        client.money.value = (client.money.value.toInt * 1.1).ceil.toInt.toString
-        println("TWO")
+      if(opponentDeathCounter == oppPokimons.length){
+        Screen.money.value = (Screen.money.value.toInt * 1.1).ceil.toInt.toString
+        logResult("AI has lost")
+        BattleLog.scrollTo(battleLog.size)
         LevelLoop
       }
     }
@@ -362,6 +426,7 @@ class BattleController (
           PotPane.visible = false
           SkillPane.visible = false
           BallPane.visible = false
+          BackButton.visible = false
         }
       }
       case "ExitButton" => {
@@ -433,11 +498,33 @@ class BattleController (
   def BallButton(ballName: String){
     client.modifyPokiball(ballName.toLowerCase, -1)
     var bool = true
-    if(Random.nextBoolean){
-      bool = client.caughtPoki(BattleStatics.oppPokimon.value)
+    var caught = false
+    if (ballName.toLowerCase == "pokiball"){ // 20%
+      if (Random.nextInt(100) < 20){
+        caught = true
+      }
+    }
+    else if (ballName.toLowerCase == "greatpokiball"){ //35%
+      if (Random.nextInt(100) < 35){
+        caught = true
+      }
+    }
+    else if (ballName.toLowerCase == "ultrapokiball"){ //50%
+      if (Random.nextInt(100) < 50){
+        caught = true
+      }
+    }
+    
+    if(caught){
+      bool = client.caughtPoki(oppPokimon)
+      logResult(s"${client.name} has caught ${oppPokimon.pokimon}")
+      BattleLog.scrollTo(battleLog.size)
+      OppTextArr.text.value = "CAUGHT!"
       if(!bool){
-        client.pcPoki.append(BattleStatics.oppPokimon.value)
-        Screen.pcBuffer += BattleStatics.oppPokimon.value.pokimon
+        logResult(s"${oppPokimon.pokimon} has been sent to the PC as the " + 
+            s"player's pokemon inventory is full")
+        client.pcPoki.append(oppPokimon)
+        Screen.pcBuffer += oppPokimon.pokimon
       }
       LevelLoop
     }
@@ -472,38 +559,39 @@ class BattleController (
   def PokemonButton(pokiIndex: Int){
     if(potting){
       pokimon(pokiIndex).heal(20*potpower)
+      logResult(s"${client.name} heals ${pokimon(pokiIndex).health} for ${20*potpower}")
       potting = false
       BattleAI("pokemon")
     }
-    else if(!BattleStatics.dead.value){
-      if(BattleStatics.trainerBattle == 2){
-        BattleStatics.currentPokimon.value_=(pokimon(pokiIndex))
-        PlayerImg.image.value_=(Pokimon.getImage(BattleStatics.currentPokimon.value.imagePath))
-        Screen.senderActor ! BattleChoice(Screen.clientName, opponentName, "pokemon", BattleStatics.currentPokimon.value)
-        BattleStatics.finished.value = true
-        BattleStatics.poki.value = true
-        BattleStatics.dead.value = true
+    else if(!dead.value){
+      if(trainerBattle == 2){
+        currentPokimon_=(pokimon(pokiIndex))
+        PlayerImg.image.value_=(Pokimon.getImage(currentPokimon.imagePath))
+        Screen.senderActor ! BattleChoice(client.name, opponentName, "pokemon", currentPokimon, mapNum, mapType)
+        finished.value = true
+        poki.value = true
+        dead.value = true
       }
       else{
-        BattleStatics.currentPokimon.value_=(pokimon(pokiIndex))
-        PlayerImg.image.value_=(Pokimon.getImage(BattleStatics.currentPokimon.value.imagePath))
+        currentPokimon_=(pokimon(pokiIndex))
+        PlayerImg.image.value_=(Pokimon.getImage(currentPokimon.imagePath))
         BattleAI("pokemon")
       }
     }
     else{
-      if(BattleStatics.trainerBattle == 2){
-        BattleStatics.currentPokimon.value_=(pokimon(pokiIndex))
-        PlayerImg.image.value_=(Pokimon.getImage(BattleStatics.currentPokimon.value.imagePath))
-        Screen.senderActor ! ChangePokemon(opponentName, BattleStatics.currentPokimon.value)
-        BattleStatics.playerPokiInfo.value = BattleStatics.currentPokimon.value.toStringBattle
-        BattleStatics.dead.value = false
+      if(trainerBattle == 2){
+        currentPokimon_=(pokimon(pokiIndex))
+        PlayerImg.image.value_=(Pokimon.getImage(currentPokimon.imagePath))
+        Screen.senderActor ! ChangePokemon(opponentName, currentPokimon, mapNum, mapType)
+        PlayerTextArr.text = currentPokimon.toStringBattle
+        dead.value = false
       }
       else{
-        BattleStatics.currentPokimon.value_=(pokimon(pokiIndex))
-        PlayerImg.image.value_=(Pokimon.getImage(BattleStatics.currentPokimon.value.imagePath))
-        BattleStatics.dead.value = false
-        BattleStatics.finished.value = false
-        BattleStatics.playerPokiInfo.value = BattleStatics.currentPokimon.value.toStringBattle
+        currentPokimon_=(pokimon(pokiIndex))
+        PlayerImg.image.value_=(Pokimon.getImage(currentPokimon.imagePath))
+        dead.value = false
+        finished.value = false
+        PlayerTextArr.text = currentPokimon.toStringBattle
       }
     }
     ControlPane.visible = true
@@ -514,62 +602,45 @@ class BattleController (
   def SkillButton(skillIndex: Int){
     ControlPane.visible = true
     SkillPane.visible = false
-    if(BattleStatics.trainerBattle == 2){
-      Screen.senderActor ! BattleChoice(Screen.clientName, opponentName, s"fight $skillIndex", BattleStatics.currentPokimon.value)
-      BattleStatics.finished.value = true
-      BattleStatics.poki.value = true
-      BattleStatics.dead.value = true
+    if(trainerBattle == 2){
+      Screen.senderActor ! BattleChoice(client.name, opponentName, s"fight $skillIndex", currentPokimon, mapNum, mapType)
+      finished.value = true
+      poki.value = true
+      dead.value = true
     }
     else if(skillOverflow){
-      val skills = BattleStatics.currentPokimon.value.skillSet
+      val skills = currentPokimon.skillSet
       var index = 0
       for(x <- 0 to skills.length-1){
         if(skills(x).name.equals(skillButtonArray(skillIndex).text.value))
           index = x
       }
-      BattleStatics.amountFight-=1
+      amountFight-=1
       skills.remove(index)
       skills.append(skillOverride)
-      BattleStatics.battleLog.append(f"${BattleStatics.currentPokimon.value.pokimon} forgot " +
+      logResult(f"${currentPokimon.pokimon} forgot " +
           f"${skillButtonArray(skillIndex).text.value} and learns ${skillOverride.name}")
+      BattleLog.scrollTo(battleLog.size)
       skillOverride = null
       skillOverflow = false
-      println(BattleStatics.amountFight)
       LevelLoop
     }
-    else if(BattleStatics.trainerBattle == 1 || BattleStatics.trainerBattle == 0){
+    else if(trainerBattle == 1 || trainerBattle == 0){
       BattleAI(s"fight $skillIndex")
     }
     BackButton.visible = false
   }
   
   def LevelUp: Boolean = {
-    println("leveled")
     ControlPane.visible = false
     PokemonPane.visible = false
     PotPane.visible = false
     BallPane.visible = false
     SkillPane.visible = true
-    var randVal = 0
-    println(BattleStatics.amountFight + " " + pokimon.length)
-    if(BattleStatics.amountFight >= pokimon.length){
-      println("big or equal")
-      randVal = Random.nextInt(pokimon.size)
-    }
-    else{
-      breakableLoop.breakable{
-        while(true){ 
-          randVal = Random.nextInt(pokimon.size)
-          if(!index.contains(randVal)){
-            breakableLoop.break
-          }
-        }
-      }
-    }
-    index.append(randVal)
-    BattleStatics.currentPokimon.value = pokimon(randVal)
+    
+    currentPokimon = pokimon(index.remove(0))
     OppImg.image = null
-    val skill = BattleStatics.currentPokimon.value.skillSet
+    val skill = currentPokimon.skillSet
     for(x <- 0 to skillButtonArray.length-1){
       try{
         skillButtonArray(x).disable = false
@@ -582,10 +653,17 @@ class BattleController (
         }
       }
     }
-    val overflowSkill = BattleStatics.currentPokimon.value.levelUp
-    PlayerImg.image = Pokimon.getImage(BattleStatics.currentPokimon.value.imagePath)
-    BattleStatics.playerPokiInfo.value_=(BattleStatics.currentPokimon.value.toStringBattle)
-    println(overflowSkill._2.name + " " + overflowSkill._1)
+    if(currentPokimon.pokiLevel != 50){
+      logResult(f"${currentPokimon.pokimon} has leveled up to ${currentPokimon.pokiLevel + 1}")
+      BattleLog.scrollTo(battleLog.size)
+    }
+    val overflowSkill = currentPokimon.levelUp
+    PlayerImg.image = Pokimon.getImage(currentPokimon.imagePath)
+    PlayerTextArr.text.value = (currentPokimon.toStringBattle)
+    if(!overflowSkill._2.name.equals("-")){
+      logResult(f"${currentPokimon.pokimon} learned ${overflowSkill._2.name}")
+      BattleLog.scrollTo(battleLog.size)
+    }
     if(!overflowSkill._2.name.equals("-") && overflowSkill._1 == 4){
       InfoText.text = s"Skill overflow. Choose one of the skill to be override by ${overflowSkill._2.name} or press cancel to not learn the new skill"
       CancelButton.visible = true
@@ -598,49 +676,48 @@ class BattleController (
   }
   
   def LevelLoop{
-    println("scene")
-    BattleStatics.oppPokiStats.removeListener(listener)
-    BattleStatics.oppPokiStats.value = ""
+    countdown.value = 60
+    if(trainerBattle == 2){
+      finished.value = false
+    }
+    countdown.removeListener(listenerCountdown)
+    countdown.value = 1
+      
+    OppTextArr.text.value = ""
     var overflow = false
     breakableLoop.breakable{
-      println("IM IN")
-      while(BattleStatics.amountFight != 0){
-        if(BattleStatics.amountFight != 0){
-          println("got levels")
+      while(amountFight != 0){
+        if(amountFight != 0){
           levelUpBool = true
           overflow = LevelUp
-          println("IM OUT")
           if(overflow){
             skillOverflow = true
             breakableLoop.break
           }
-          BattleStatics.amountFight-=1
+          amountFight-=1
         }
       }
     }
-    if(BattleStatics.amountFight == 0 && !overflow){
-      println("amountFight")
+    if(amountFight == 0 && !overflow){
       SkillPane.visible = false
       PokemonPane.visible = false
       BallPane.visible = false
       ControlPane.visible = true
-      BattleStatics.dead.value = true
-      BattleStatics.poki.value = true
-      BattleStatics.finished.value = true
+      dead.value = true
+      poki.value = true
+      finished.value = true
       ExitButton.visible = true
     }
   }
   
   def ChangeScene {
-    Screen.currentMapType = Screen.clientPlayer.previousMapType
-    Screen.currentMapNum = Screen.clientPlayer.previousMap
+    for(x <- pokimon){
+      x.reset
+    }
+    Screen.oppName.value = ""
     
-    Screen.clientPlayer.previousMapType = "battle"
-    Screen.clientPlayer.previousMap = 0
-    
-    Screen.senderActor ! MapChange(false, Screen.clientName, Screen.clientPlayer.coordsX, Screen.clientPlayer.coordsY, 
-        Screen.currentMapNum, Screen.currentMapType, Screen.clientPlayer.previousMap, Screen.clientPlayer.previousMapType)
-    
+    Screen.uiDescription.value = ""
+
     Platform.runLater(new Thread{
       override def run(){
         Screen.game.scene = Screen.getScene(Screen.currentMapType, Screen.currentMapNum)
@@ -648,7 +725,7 @@ class BattleController (
         Screen.scheduleSync
       }
     })
-    BattleStatics.endBattle.value = true
+    Screen.battleReady = true
   }
   
   def EnteredMouse(e: MouseEvent){
@@ -656,34 +733,34 @@ class BattleController (
     val name = button.getId
     name match{
       case "FightButton" => {
-        InfoText.text = "FIGHTO"
+        InfoText.text = "For sparta!"
       }
       case "RunButton" => {
-        InfoText.text = "CHICKEN!"
+        InfoText.text = "Exactly what it said. Run"
       }
       case "BallButton" => {
-        InfoText.text = "BALLLLSSS!!"
+        InfoText.text = "The balls you need to catch pokimons"
       }
       case "PotButton" => {
-        InfoText.text = "POTS ARE FOR COWARDS!!!"
+        InfoText.text = "Potion that heals your pokimons."
       }
       case "PokemonOne" => {
-        InfoText.text = pokimon(0).toString
+        InfoText.text = pokimon(0).toStringBattle
       }
       case "PokemonTwo" => {
-        InfoText.text = pokimon(1).toString
+        InfoText.text = pokimon(1).toStringBattle
       }
       case "PokemonThree" => {
-        InfoText.text = pokimon(2).toString
+        InfoText.text = pokimon(2).toStringBattle
       }
       case "PokemonFour" => {
-        InfoText.text = pokimon(3).toString
+        InfoText.text = pokimon(3).toStringBattle
       }
       case "PokemonFive" => {
-        InfoText.text = pokimon(4).toString
+        InfoText.text = pokimon(4).toStringBattle
       }
       case "PokemonSix" => {
-        InfoText.text = pokimon(5).toString
+        InfoText.text = pokimon(5).toStringBattle
       }
       case "Potion" => {
         InfoText.text = s"${Description.description(name)}\nCount: ${client.pokiPotion(name.toLowerCase)}"
@@ -704,29 +781,28 @@ class BattleController (
         InfoText.text = s"${Description.description(name)}\nCount: ${client.pokiballs(name.toLowerCase)}"
       }
       case "SkillOne" => {
-        InfoText.text = BattleStatics.currentPokimon.value.skillSet(0).description
+        InfoText.text = currentPokimon.skillSet(0).description
       }
       case "SkillTwo" => {
-        InfoText.text = BattleStatics.currentPokimon.value.skillSet(1).description
+        InfoText.text = currentPokimon.skillSet(1).description
       }
       case "SkillThree" => {
-        InfoText.text = BattleStatics.currentPokimon.value.skillSet(2).description
+        InfoText.text = currentPokimon.skillSet(2).description
       }
       case "SkillFour" => {
-        InfoText.text = BattleStatics.currentPokimon.value.skillSet(3).description
+        InfoText.text = currentPokimon.skillSet(3).description
       }
       case _ => 
     }
   }
   
   def BattleAI(playerChoice: String){
-    println("AI")
-    if(BattleStatics.trainerBattle == 0){//WILD POKIMON AI
-      processBattle(BattleStatics.currentPokimon.value, BattleStatics.oppPokimon.value,
-          playerChoice, s"fight ${Random.nextInt(BattleStatics.oppPokimon.value.skillSet.length)}")
+    if(trainerBattle == 0){//WILD POKIMON AI
+      processBattle(currentPokimon, oppPokimon,
+          playerChoice, s"fight ${Random.nextInt(oppPokimon.skillSet.length)}")
     }
     else{//PLAYER AI
-      val poki = BattleStatics.oppPokimon.value
+      val poki = oppPokimon
       var potted = false
       if(poki.health < poki.health*0.30 && poki.pokiLevel >= oppAvgLevel){
         if(poki.maxHealth - poki.health < 20){
@@ -753,25 +829,23 @@ class BattleController (
       }
       var result = ("","")
       if(!potted){
-        result = processBattle(BattleStatics.currentPokimon.value, BattleStatics.oppPokimon.value,
-          playerChoice, s"fight ${Random.nextInt(BattleStatics.oppPokimon.value.skillSet.length)}")
+        result = processBattle(currentPokimon, oppPokimon,
+          playerChoice, s"fight ${Random.nextInt(oppPokimon.skillSet.length)}")
       }
       else{
-        result = processBattle(BattleStatics.currentPokimon.value, BattleStatics.oppPokimon.value,
+        result = processBattle(currentPokimon, oppPokimon,
           playerChoice, s"pokemon")
       }
       if(result._2.equals("AI")){
         var chosen = false
-        for(x <- BattleStatics.oppPokimons){
+        for(x <- oppPokimons){
           if(x.health > 0){
-            if(Element.getMultiplier(Element.getIntFromElem(x.element), Element.getIntFromElem(BattleStatics.currentPokimon.value.element)) >= 1.9){
-              BattleStatics.oppPokimon.value = x
-              println("I FOUND YOUR COUNTER!")
+            if(Element.getMultiplier(Element.getIntFromElem(x.element), Element.getIntFromElem(currentPokimon.element)) >= 1.9){
+              setOppPokimon(x)
             }
             else{
               if(!chosen){
-                println("chosen")
-                BattleStatics.oppPokimon.value = x
+                setOppPokimon(x)
                 chosen = true
               }
             }
@@ -779,40 +853,40 @@ class BattleController (
         }
       }
     }
-    println(playerChoice)
-    BattleStatics.oppPokiStats.value = ""
-    BattleStatics.oppPokiStats.value = BattleStatics.oppPokimon.value.toStringBattle
+    updateStats
   }
   
   def errorProneStatement(dmgTakePk: Pokimon, dmgDealPk: Pokimon, dmgDealSkill: Int){
     try{
       val damage = dmgTakePk.takeDmg(dmgDealPk.doDmg(dmgTakePk.element, dmgDealSkill))
-      BattleStatics.battleLog.append(f"${dmgDealPk.pokimon} use ${dmgDealPk.skillSet(dmgDealSkill).name}")
-      BattleStatics.battleLog.append(f"${dmgTakePk.pokimon} suffers $damage%.2f")
+      logResult(f"${dmgDealPk.pokimon} use ${dmgDealPk.skillSet(dmgDealSkill).name}")
+      logResult(f"${dmgTakePk.pokimon} suffers $damage%.2f")
+      BattleLog.scrollTo(battleLog.size)
     }
     catch{
       case e: NoSuchElementException =>{
         val nullskill = dmgDealPk.skillSet(dmgDealSkill)
         if(nullskill.power < 0 && nullskill.description.contains("defense")){
           dmgTakePk.debuffSkill(true, nullskill.power)
-          BattleStatics.battleLog.append(f"${dmgDealPk.pokimon} use ${dmgDealPk.skillSet(dmgDealSkill).name}")
-          BattleStatics.battleLog.append(f"${dmgTakePk.pokimon} defense is reduced by ${nullskill.power}")
+          logResult(f"${dmgDealPk.pokimon} use ${dmgDealPk.skillSet(dmgDealSkill).name}")
+          logResult(f"${dmgTakePk.pokimon} defense is reduced by ${nullskill.power}")
         }
         else if(nullskill.power > 0 && nullskill.description.contains("defense")){
           dmgDealPk.buffSkill(true, nullskill.power)
-          BattleStatics.battleLog.append(f"${dmgDealPk.pokimon} use ${dmgDealPk.skillSet(dmgDealSkill).name}")
-          BattleStatics.battleLog.append(f"${dmgDealPk.pokimon} defense is increased by ${nullskill.power}")
+          logResult(f"${dmgDealPk.pokimon} use ${dmgDealPk.skillSet(dmgDealSkill).name}")
+          logResult(f"${dmgDealPk.pokimon} defense is increased by ${nullskill.power}")
         }
         else if(nullskill.power < 0 && nullskill.description.contains("attack")){
           dmgTakePk.debuffSkill(false, nullskill.power)
-          BattleStatics.battleLog.append(f"${dmgDealPk.pokimon} use ${dmgDealPk.skillSet(dmgDealSkill).name}")
-          BattleStatics.battleLog.append(f"${dmgTakePk.pokimon} attack is reduced by ${nullskill.power}")
+          logResult(f"${dmgDealPk.pokimon} use ${dmgDealPk.skillSet(dmgDealSkill).name}")
+          logResult(f"${dmgTakePk.pokimon} attack is reduced by ${nullskill.power}")
         }
         else if(nullskill.power > 0 && nullskill.description.contains("attack")){
           dmgDealPk.buffSkill(false, nullskill.power)
-          BattleStatics.battleLog.append(f"${dmgDealPk.pokimon} use ${dmgDealPk.skillSet(dmgDealSkill).name}")
-          BattleStatics.battleLog.append(f"${dmgDealPk.pokimon} attack is increased by ${nullskill.power}")
+          logResult(f"${dmgDealPk.pokimon} use ${dmgDealPk.skillSet(dmgDealSkill).name}")
+          logResult(f"${dmgDealPk.pokimon} attack is increased by ${nullskill.power}")
         }
+        BattleLog.scrollTo(battleLog.size)
       }
       case e:Exception =>{
         e.printStackTrace
@@ -825,7 +899,8 @@ class BattleController (
       if(playerChoice.equals("pokemon")&&AIChoice.contains("fight")){
         errorProneStatement(player, AI, AIChoice.split(" ")(1).toInt)
         if(player.health <= 0){
-          BattleStatics.battleLog.append(f"${Screen.clientName}'s ${player.pokimon} has fainted")
+          logResult(f"${client.name}'s ${player.pokimon} has fainted")
+          BattleLog.scrollTo(battleLog.size)
           ("dead","player")
         }
         else{
@@ -835,8 +910,17 @@ class BattleController (
       else{
         errorProneStatement(AI, player, playerChoice.split(" ")(1).toInt)
         if(AI.health <= 0){
-          BattleStatics.battleLog.append(f"AI's ${AI.pokimon} has fainted")
-          BattleStatics.amountFight+=1
+          logResult(f"AI's ${AI.pokimon} has fainted")
+          BattleLog.scrollTo(battleLog.size)
+          amountFight+=1
+          breakableLoop.breakable{
+            for(x <- 0 to pokimon.length-1){
+              if(pokimon(x).equals(player)){
+                index.append(x)
+                breakableLoop.break
+              }
+            }
+          }
           ("dead","AI")
         }
         else{
@@ -849,14 +933,24 @@ class BattleController (
         if(player.speed > AI.speed){
           errorProneStatement(AI, player, playerChoice.split(" ")(1).toInt)
           if(AI.health <= 0){
-            BattleStatics.battleLog.append(f"AI's ${AI.pokimon} has fainted")
-            BattleStatics.amountFight+=1
+            logResult(f"AI's ${AI.pokimon} has fainted")
+            BattleLog.scrollTo(battleLog.size)
+            amountFight+=1
+            breakableLoop.breakable{
+              for(x <- 0 to pokimon.length-1){
+                if(pokimon(x).equals(player)){
+                  index.append(x)
+                  breakableLoop.break
+                }
+              }
+            }
             ("dead","AI")
           }
           else{
             errorProneStatement(player, AI, AIChoice.split(" ")(1).toInt)
             if(player.health <= 0){
-              BattleStatics.battleLog.append(f"${Screen.clientName}'s ${player.pokimon} has fainted")
+              logResult(f"${client.name}'s ${player.pokimon} has fainted")
+              BattleLog.scrollTo(battleLog.size)
               ("dead","player")
             }
             else{
@@ -867,14 +961,24 @@ class BattleController (
         else if(player.speed < AI.speed){
           errorProneStatement(player, AI, AIChoice.split(" ")(1).toInt)
           if(player.health <= 0){
-            BattleStatics.battleLog.append(f"${Screen.clientName}'s ${player.pokimon} has fainted")
+            logResult(f"${client.name}'s ${player.pokimon} has fainted")
+            BattleLog.scrollTo(battleLog.size)
             ("dead","player")
           }
           else{
             errorProneStatement(AI, player, playerChoice.split(" ")(1).toInt)
             if(AI.health <= 0){
-              BattleStatics.battleLog.append(f"AI's ${AI.pokimon} has fainted")
-              BattleStatics.amountFight+=1
+              logResult(f"AI's ${AI.pokimon} has fainted")
+              BattleLog.scrollTo(battleLog.size)
+              amountFight+=1
+              breakableLoop.breakable{
+                for(x <- 0 to pokimon.length-1){
+                  if(pokimon(x).equals(player)){
+                    index.append(x)
+                    breakableLoop.break
+                  }
+                }
+              }
               ("dead","AI")
             }
             else{
@@ -886,14 +990,24 @@ class BattleController (
           if(Random.nextBoolean){
             errorProneStatement(AI, player, playerChoice.split(" ")(1).toInt)
             if(AI.health <= 0){
-              BattleStatics.battleLog.append(f"AI's ${AI.pokimon} has fainted")
-              BattleStatics.amountFight+=1
+              logResult(f"AI's ${AI.pokimon} has fainted")
+              BattleLog.scrollTo(battleLog.size)
+              amountFight+=1
+              breakableLoop.breakable{
+                for(x <- 0 to pokimon.length-1){
+                  if(pokimon(x).equals(player)){
+                    index.append(x)
+                    breakableLoop.break
+                  }
+                }
+              }
               ("dead","AI")
             }
             else{
               errorProneStatement(player, AI, AIChoice.split(" ")(1).toInt)
               if(player.health <= 0){
-                BattleStatics.battleLog.append(f"${Screen.clientName}'s ${player.pokimon} has fainted")
+                logResult(f"${client.name}'s ${player.pokimon} has fainted")
+                BattleLog.scrollTo(battleLog.size)
                 ("dead","player")
               }
               else{
@@ -904,14 +1018,24 @@ class BattleController (
           else{
             errorProneStatement(player, AI, AIChoice.split(" ")(1).toInt)
             if(player.health <= 0){
-              BattleStatics.battleLog.append(f"${Screen.clientName}'s ${player.pokimon} has fainted")
+              logResult(f"${client.name}'s ${player.pokimon} has fainted")
+              BattleLog.scrollTo(battleLog.size)
               ("dead","player")
             }
             else{
               errorProneStatement(AI, player, playerChoice.split(" ")(1).toInt)
               if(AI.health <= 0){
-                BattleStatics.battleLog.append(f"AI's ${AI.pokimon} has fainted")
-                BattleStatics.amountFight+=1
+                logResult(f"AI's ${AI.pokimon} has fainted")
+                BattleLog.scrollTo(battleLog.size)
+                amountFight+=1
+                breakableLoop.breakable{
+                  for(x <- 0 to pokimon.length-1){
+                    if(pokimon(x).equals(player)){
+                      index.append(x)
+                      breakableLoop.break
+                    }
+                  }
+                }
                 ("dead","AI")
               }
               else{
@@ -935,22 +1059,4 @@ class BattleController (
       InfoText.text = "Choose one of the skill to be overwritten"
     }
   }
-}
-
-object BattleStatics {
-  val placeholder = new AnyRef
-  val endBattle = BooleanProperty(false)
-  var trainerBattle = 0  //0 for wild, 1 for gym, 2 for player
-  val finished = BooleanProperty(true)
-  val poki = BooleanProperty(true)
-  val dead = BooleanProperty(false)
-  var opponentName = ""
-  val oppPokimons = ArrayBuffer[Pokimon]()
-  val oppPokimon = new ObjectProperty[Pokimon]
-  oppPokimon.value = new Pokimon("a","water",2)
-  val oppPokiStats = StringProperty("")
-  val playerPokiInfo = new StringProperty("")
-  val currentPokimon = new ObjectProperty[Pokimon]
-  val battleLog = new scalafx.collections.ObservableBuffer[String]()
-  var amountFight = 0
 }

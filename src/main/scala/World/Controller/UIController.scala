@@ -1,17 +1,16 @@
 package World.Controller
 
-import scalafx.scene.input._
-import scalafx.scene._
-import scalafx.scene.control._
-import scalafx.scene.image._
-import scalafx.scene.layout._
+import scalafx.scene.input.{KeyEvent, KeyCode, MouseEvent}
+import scalafx.scene.control.{TextField, Button, ListView, Label, TabPane, TextArea}
+import scalafx.scene.image.{ImageView, Image}
+import scalafx.scene.layout.BorderPane
 import scalafxml.core.macros.sfxml
 import scalafx.Includes._
-import World._
+import World.{Screen, Messages, Description}
 import scalafx.collections.ObservableBuffer
 import scalafx.beans.property.ObjectProperty
-import World.Messages._
-import scalafx.scene.control.cell._
+import Messages._
+import scalafx.scene.control.cell.TextFieldListCell
 
 @sfxml
 class UIController(
@@ -27,16 +26,18 @@ class UIController(
     private val tabImage : ImageView,
     private val tabDetails : TextArea,
     private val oppText : Label,
-    private val borderPane : BorderPane){
+    private val borderPane : BorderPane,
+    private val nameField : TextField){
   
   val scene = Screen.getScene(Screen.currentMapType, Screen.currentMapNum)
   
+  nameField.text.bind(Screen.clientProperty)
   Screen.messageList.put(scene,(chatList,chatText))
   pokemonList.items = Screen.pokemonBuffer
   itemList.items = Screen.itemBuffer
   tabDetails.text.bind(Screen.uiDescription)
   oppText.text.bind(Screen.oppName)
-  moneyField.text.bind(Screen.clientPlayer.money)
+  moneyField.text.bind(Screen.money)
   
   chatList.cellFactory = (chatList) =>
     new TextFieldListCell[String](){
@@ -46,8 +47,8 @@ class UIController(
     
   chatList.items = Screen.chatMessage
   
-  val imageProperty : ObjectProperty[javafx.scene.image.Image] = tabImage.image
-  imageProperty.bind(Screen.UIImage)
+//  val imageProperty : ObjectProperty[javafx.scene.image.Image] = tabImage.image
+//  imageProperty.bind(Screen.UIImage)
   
   def onChatKeyPressed(e : KeyEvent){
     e.code match{
@@ -99,11 +100,11 @@ class UIController(
     
     if (selectedItemName != null){
       if (trainerPokiballs.contains(selectedItemName)){
-        tabDetails.text = String.format("Item Name: %s\nItem Amount: %s\nDescription: %s\n",
+        Screen.uiDescription.value = String.format("Item Name: %s\nItem Amount: %s\nDescription: %s\n",
         selectedItemName, Screen.clientPlayer.pokiballs(selectedItemName).toString, Description.description(selectedItemName))
       }
       else if (trainerPokiPotions.contains(selectedItemName)){
-        tabDetails.text = String.format("Item Name: %s\nItem Amount: %s\nDescription: %s\n",
+        Screen.uiDescription.value = String.format("Item Name: %s\nItem Amount: %s\nDescription: %s\n",
         selectedItemName, Screen.clientPlayer.pokiPotion(selectedItemName).toString, Description.description(selectedItemName))
       }
     }
@@ -117,7 +118,11 @@ class UIController(
     borderPane.requestFocus
   }
   
-    def onClick(e: MouseEvent){
+  def onNamePressed(){
+    borderPane.requestFocus
+  }
+  
+  def onClick(e: MouseEvent){
     val button = new Button(e.source.asInstanceOf[javafx.scene.control.Button])
     val name = button.id.value
    
@@ -127,11 +132,13 @@ class UIController(
         if (Screen.clientPlayer.checkAlive){
           Screen.senderActor ! BattleReq(oppText.text.value, Screen.clientName, Screen.currentMapNum, Screen.currentMapType)
         }
+        else{
+          Screen.chatMessage += "You do not have a pokemon that is alive"
+        }
       }
       case _ => chatText.text = "meh"
     }
   }
-  
-  
+    
 }
 

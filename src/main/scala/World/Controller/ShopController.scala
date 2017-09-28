@@ -1,10 +1,8 @@
 package World.Controller
 
-import scalafx.scene.input._
-import scalafx.scene._
-import scalafx.scene.control._
-import scalafx.scene.image._
-import scalafx.scene.layout._
+import scalafx.scene.control.{ListView, TextArea, Button, TextField}
+import scalafx.scene.image.{Image, ImageView}
+import scalafx.scene.layout.AnchorPane
 import scalafxml.core.macros.sfxml
 import scalafx.Includes._
 import scalafx.collections.ObservableBuffer
@@ -74,6 +72,7 @@ class ShopController(
     }
     else{
       shopLog += "Select an item first!"
+      purchaseLog.scrollTo(shopLog.size)
     }
   }
   
@@ -112,12 +111,12 @@ class ShopController(
       purchaseAmount = Integer.parseInt(amountText.text.value)
       
       price = itemPrice(selected) * purchaseAmount
-      var money = Integer.parseInt(Screen.clientPlayer.money.value)
+      var money = Integer.parseInt(Screen.money.value)
       
       if (price <= money){
         purchase = true
         money = money - price
-        Screen.clientPlayer.money.value = s"$money"
+        Screen.money.value = s"$money"
       }
       else{
         shopLog += s"Not enough funds!"
@@ -128,6 +127,7 @@ class ShopController(
     catch{
       case e : NumberFormatException => {
         shopLog += s"Only numbers are allowed!"
+        purchaseLog.scrollTo(shopLog.size)
         purchase = false
       }
     }
@@ -154,7 +154,7 @@ class ShopController(
       }
       
       Screen.reloadItems()
-      
+      Screen.uiDescription.value = ""
       
       amountAnchor.visible = false
       itemText.disable = false

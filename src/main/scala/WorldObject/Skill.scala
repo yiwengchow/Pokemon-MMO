@@ -1,7 +1,7 @@
 package WorldObject
 
-import scala.collection.mutable._
-import scala.util.control.Breaks._
+import scala.collection.mutable.ArrayBuffer
+import scala.util.control.Breaks
 
 final class Skill(data: Array[String]) extends Serializable{
   private val _name = data(0)
@@ -66,7 +66,7 @@ object Skill {
   ElementLevelPower(6)(0) = "grass whip"
   ElementLevelPower(6)(1) = "1"
   ElementLevelPower(6)(2) = "40"
-  ElementLevelPower(6)(3) = "Kinky."
+  ElementLevelPower(6)(3) = "Deadly whip that slices its opponents."
   ElementLevelPower(6)(4) = "grass"
   ElementLevelPower(7)(0) = "leaf blade"
   ElementLevelPower(7)(1) = "25"
@@ -168,12 +168,9 @@ object Skill {
         resultingArray.append(new Skill(ElementLevelPower(x)))
       }
     }
-    print(resultingArray.length + " ")
     if(resultingArray.length > 4){
-      print("remove ")
-      resultingArray.remove(0, resultingArray.length-4)
+      resultingArray.remove(3, resultingArray.length-4)
     }
-    println(resultingArray.length)
     resultingArray
   }
 }

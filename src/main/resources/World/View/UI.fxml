@@ -14,12 +14,14 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <ListView fx:id="chatList" focusTraversable="false" onMousePressed="#onChatListPressed" prefHeight="125.0" prefWidth="220.0" />
+                  <Label layoutX="7.0" layoutY="6.0" text="Player Name: " />
+                  <ListView fx:id="chatList" focusTraversable="false" layoutY="25.0" onMousePressed="#onChatListPressed" prefHeight="100.0" prefWidth="220.0" />
+                  <TextField fx:id="nameField" editable="false" focusTraversable="false" layoutX="80.0" layoutY="2.0" onMousePressed="#onNamePressed" prefHeight="25.0" prefWidth="130.0" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TextField fx:id="chatText" focusTraversable="false" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onChatKeyPressed" onMousePressed="#onChatMousePressed" prefHeight="25.0" prefWidth="220.0" />
+                  <TextField fx:id="chatText" focusTraversable="false" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onChatKeyPressed" onMousePressed="#onChatMousePressed" prefHeight="20.0" prefWidth="220.0" />
                </children>
             </AnchorPane>
         </items>
@@ -36,7 +38,7 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="150.0" prefWidth="200.0">
                                  <children>
-                                    <ListView fx:id="pokemonList" focusTraversable="false" onMouseClicked="#onPokemonListClick" prefHeight="130.0" prefWidth="214.0" AnchorPane.bottomAnchor="-9.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0" />
+                                    <ListView fx:id="pokemonList" focusTraversable="false" onMouseClicked="#onPokemonListClick" prefHeight="115.0" prefWidth="200.0" />
                                  </children>
                               </AnchorPane>
                         </content>
@@ -45,7 +47,7 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="150.0" prefWidth="200.0">
                                  <children>
-                                    <ListView fx:id="itemList" focusTraversable="false" onMouseClicked="#onItemListClick" prefHeight="125.0" prefWidth="200.0" />
+                                    <ListView fx:id="itemList" focusTraversable="false" onMouseClicked="#onItemListClick" prefHeight="115.0" prefWidth="200.0" />
                                  </children>
                               </AnchorPane>
                         </content>
@@ -71,9 +73,8 @@
    <right>
       <Pane prefHeight="200.0" prefWidth="229.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="tabImage" fitHeight="98.0" fitWidth="230.0" layoutY="26.0" nodeOrientation="INHERIT" />
-            <Button fx:id="battleButton" alignment="CENTER" blendMode="DIFFERENCE" contentDisplay="CENTER" focusTraversable="false" layoutY="123.0" mnemonicParsing="false" onMouseClicked="#onClick" prefHeight="25.0" prefWidth="230.0" text="Battle!" />
-            <Label fx:id="oppText" alignment="CENTER" blendMode="DIFFERENCE" focusTraversable="false" prefHeight="25.0" prefWidth="230.0" text="No Person" textFill="WHITE" />
+            <Button fx:id="battleButton" alignment="CENTER" blendMode="DIFFERENCE" contentDisplay="CENTER" focusTraversable="false" layoutY="125.0" mnemonicParsing="false" onMouseClicked="#onClick" prefHeight="25.0" prefWidth="230.0" text="Battle!" />
+            <Label fx:id="oppText" alignment="CENTER" blendMode="DIFFERENCE" focusTraversable="false" layoutY="75.0" prefHeight="50.0" prefWidth="230.0" text="No Person" textFill="WHITE" />
          </children>
       </Pane>
    </right>

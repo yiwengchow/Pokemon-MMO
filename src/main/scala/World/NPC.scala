@@ -1,11 +1,8 @@
 package World
 
-import scalafx.Includes._
-import scalafx.scene.image.{ImageView, Image}
 import scala.util.Random
 import scala.collection.mutable._
 import WorldObject._
-import World.Controller._
 import World.Messages._
 
 /**
@@ -29,28 +26,50 @@ class NPC (coordsX : Int, coordsY : Int, name : String) extends OverworldImmovab
         if (Screen.battleReady){
           
           if (Screen.clientPlayer.checkAlive){
-            BattleStatics.trainerBattle = 1
+            Screen.trainerBattle = 1
             val numberOfPokemon = Random.nextInt(1) + 1
             
+            val oppPokimons = ArrayBuffer[Pokimon]()
             for (x <- 0 to numberOfPokemon){
-              BattleStatics.oppPokimons.append(Pokimon.createPokimon(Screen.getMap(Screen.currentMapType, Screen.currentMapNum).battleVal))
+              oppPokimons.append(Pokimon.createPokimon(Screen.getMap(Screen.currentMapType, Screen.currentMapNum).battleVal))
             }
             
-            Screen.clientPlayer.previousMap = Screen.currentMapNum
-            Screen.clientPlayer.previousMapType = Screen.currentMapType
-            
-            Screen.currentMapNum = 0
-            Screen.currentMapType = "battle"
-            
-             Screen.senderActor ! MapChange(false, Screen.clientName, Screen.clientPlayer.coordsX, Screen.clientPlayer.coordsY, 
-              Screen.currentMapNum, Screen.currentMapType, Screen.clientPlayer.previousMap, Screen.clientPlayer.previousMapType)
-              
-            Screen.game.scene = Screen.getBattle()
+            val battleStuff = Screen.getBattle
+            Screen.game.scene = battleStuff._1
+            Screen.battleController = battleStuff._2
+             
+            Screen.battleController.setPokimons(oppPokimons) 
           }
         }
       }
+      
+      
+      case "scientistNPC" => {
+        var healed = false
+        
+        for (x <- Screen.clientPlayer.trainerPoki){
+          if (x.health != x.maxHealth){
+            x.health = x.maxHealth
+            healed = true
+          }
+        }
+        
+        if (healed){
+          Screen.chatMessage += "Healer: Healed your pokemon!"
+          Screen.uiDescription.value = ""
+        }
+        else{
+          Screen.chatMessage += "Healer: Your pokemons are at full health!"
+        }
+        
+        val chatField = Screen.messageList(Screen.getCurrentScene)._1
+        chatField.scrollTo(Screen.chatMessage.size)
+      }
+      
+      case _ => 
     }
     
     return false
+
   }
 }

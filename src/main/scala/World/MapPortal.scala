@@ -1,10 +1,5 @@
 package World
 
-import scalafx.Includes._
-import scalafx.scene.image.{ImageView, Image}
-import scalafx.application.JFXApp.PrimaryStage
-import scalafx.scene.{Scene,Group,SubScene}
-
 class MapPortal(x : Int, y : Int, spawnX : Int, spawnY : Int, exitPlace : Int) extends OverworldImmovable(x,y,"mapPortal") with Interactable{
   
   def checkClient(){
@@ -13,7 +8,9 @@ class MapPortal(x : Int, y : Int, spawnX : Int, spawnY : Int, exitPlace : Int) e
       
       Screen.currentMapType = "map"
       Screen.currentMapNum = exitPlace
-      Screen.clientPlayer.previousMap = exitPlace
+      
+      Screen.clientPlayer.coordsX = spawnX
+      Screen.clientPlayer.coordsY = spawnY
       
       Screen.movementList.put(Screen.clientPlayer, new ClientMovement(Screen.currentMapType,Screen.currentMapNum))
       Screen.clientMovement = Screen.movementList.getOrElse(Screen.clientPlayer,null).asInstanceOf[ClientMovement]

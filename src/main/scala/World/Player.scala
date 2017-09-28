@@ -1,11 +1,9 @@
 package World
 
-import scalafx.Includes._
 import WorldObject._
 import scalafx.scene.image.{ImageView, Image}
-import scalafx.beans.property._
-import scala.collection.mutable._
-import scalafx.collections._
+import scalafx.beans.property.StringProperty
+import scala.collection.mutable.{ArrayBuffer, ListMap}
 
 class Player(val name : String, val charType : Int) extends Serializable{
   
@@ -32,8 +30,7 @@ class Player(val name : String, val charType : Int) extends Serializable{
   
   @transient var char : Array[Array[ImageView]] = null
   
-  @transient var money = new StringProperty("644")
-  var moneyInt = 0
+  var moneyInt = 644
   
   @transient var playerSprite = charStandingDown
   
@@ -47,7 +44,7 @@ class Player(val name : String, val charType : Int) extends Serializable{
   var pcPoki = ArrayBuffer[Pokimon]()
   
   var coordsX = 100
-  var coordsY = 200
+  var coordsY = 300
   
   var previousCoordsX = 0
   var previousCoordsY = 0
@@ -58,9 +55,7 @@ class Player(val name : String, val charType : Int) extends Serializable{
   var previousMapType = "map"
   var previousMap = 0
   
-  println("inv poki")
-  trainerPoki.append(Pokimon.createPokimon(1),Pokimon.createPokimon(1),Pokimon.createPokimon(1),Pokimon.createPokimon(1))
-  pcPoki.append(Pokimon.createPokimon(1))
+  pcPoki.append(Pokimon.createPokimon(9), Pokimon.createPokimon(9))
   
   def caughtPoki(caughtPoki: Pokimon): Boolean = {
     if(trainerPoki.length < 6){

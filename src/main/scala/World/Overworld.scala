@@ -1,6 +1,5 @@
 package World
 
-import scalafx.Includes._
 import scalafx.scene.image.{ImageView, Image}
 
 class OverworldMovable(x : Int, y : Int, item : String) extends Movable {
@@ -13,6 +12,10 @@ class OverworldMovable(x : Int, y : Int, item : String) extends Movable {
     case "desert" => resultImage = getImageView("World/Items/Overworld/desert.png",25,25)
     case "ladder" => resultImage = getImageView("World/Items/Overworld/ladder.png",25,25)
     case "stairs" => resultImage = getImageView("World/Items/Overworld/stairs.png",25,25)
+    
+    //added
+    case "pcfloor" => resultImage = getImageView("World/Items/Interior/pcfloor.png",25,25)
+    case "seat" => resultImage = getImageView("World/Items/Interior/seat.png",25,25)
   }
   
   setXY(x,y)
@@ -49,7 +52,16 @@ class OverworldImmovable(x : Int, y : Int, item : String) extends Immovable {
     case "villageGirlNPC" => resultImage = getImageView("World/Items/NPC/villageGirlNPC.png",25,25)
     case "villageGuyNPC" => resultImage = getImageView("World/Items/NPC/villageGuyNPC.png",25,25)
     
-    case "bed" => resultImage = getImageView("World/Items/House/bed.png",100,150)
+    //added
+    case "bed0" => resultImage = getImageView("World/Items/Interior/bed0.png",100,150)
+    case "bed1" => resultImage = getImageView("World/Items/Interior/bed1.png",100,150)
+    case "bookshelf" => resultImage = getImageView("World/Items/Interior/bookshelf.png",25,50)
+    case "pc" => resultImage = getImageView("World/Items/Interior/pc.png",25,25)
+
+    case "table1" => resultImage = getImageView("World/Items/Interior/table1.png",100,75)
+    case "table2" => resultImage = getImageView("World/Items/Interior/table2.png",50,50)
+    
+    case "nurseNPC" => resultImage = getImageView("World/Items/NPC/nurseNPC.png",25,25)
   }
   
   setXY(x,y)
