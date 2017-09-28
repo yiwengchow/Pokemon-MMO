@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="shopAnchor" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="301.0" prefWidth="600.0" style="-fx-background-color: WHITE; -fx-border-color: BLACK;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="World.Controller.ShopController">
+   <children>
+      <ListView fx:id="purchaseLog" focusTraversable="false" layoutY="200.0" prefHeight="100.0" prefWidth="300.0" />
+      <ListView fx:id="shopList" focusTraversable="false" onMouseClicked="#onListClicked" prefHeight="200.0" prefWidth="300.0" />
+      <ImageView fx:id="itemImage" fitHeight="150.0" fitWidth="300.0" layoutX="300.0" pickOnBounds="true" preserveRatio="true" />
+      <TextArea fx:id="itemText" editable="false" focusTraversable="false" layoutX="300.0" layoutY="150.0" prefHeight="100.0" prefWidth="300.0" wrapText="true" />
+      <Button fx:id="buyButton" focusTraversable="false" layoutX="300.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#onBuyClicked" prefHeight="50.0" prefWidth="100.0" text="BUY" />
+      <Button fx:id="exitButton" focusTraversable="false" layoutX="500.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#onExitClicked" prefHeight="50.0" prefWidth="100.0" text="EXIT" />
+      <AnchorPane fx:id="amountAnchor" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: WHITE; -fx-border-color: BLACK;">
+         <children>
+            <TextArea fx:id="amountTextArea" editable="false" focusTraversable="false" layoutX="25.0" layoutY="15.0" prefHeight="50.0" prefWidth="250.0" wrapText="true" />
+            <Label layoutX="10.0" layoutY="90.0" text="Amount: " />
+            <TextField fx:id="amountText" focusTraversable="false" layoutX="60.0" layoutY="75.0" prefHeight="50.0" prefWidth="40.0" />
+            <ImageView fx:id="upImage" fitHeight="25.0" fitWidth="25.0" layoutX="110.0" layoutY="72.0" onMouseClicked="#onUpClicked" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="downImage" fitHeight="25.0" fitWidth="25.0" layoutX="110.0" layoutY="95.0" onMouseClicked="#onDownClicked" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="purchaseButton" focusTraversable="false" layoutX="14.0" layoutY="138.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#onPurchaseClicked" prefHeight="25.0" prefWidth="75.0" text="Purchase" />
+            <Button fx:id="amountExitButton" focusTraversable="false" layoutX="110.0" layoutY="138.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#onAmountExitClicked" prefHeight="25.0" prefWidth="75.0" text="Exit" />
+            <Label layoutX="160.0" layoutY="90.0" text="Total:" />
+            <TextField fx:id="totalText" editable="false" focusTraversable="false" layoutX="200.0" layoutY="75.0" prefHeight="50.0" prefWidth="75.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

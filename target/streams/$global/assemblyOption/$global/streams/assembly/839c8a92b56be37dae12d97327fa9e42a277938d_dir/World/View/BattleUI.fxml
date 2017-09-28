@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="78.0" prefWidth="250.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="World.Controller.BattleUIController">
+   <children>
+      <Button fx:id="rejectButton" focusTraversable="false" layoutX="133.0" layoutY="50.0" mnemonicParsing="false" onMouseClicked="#onClick" prefHeight="25.0" prefWidth="100.0" text="Reject" />
+      <Button fx:id="acceptButton" focusTraversable="false" layoutX="18.0" layoutY="50.0" mnemonicParsing="false" onMouseClicked="#onClick" prefHeight="25.0" prefWidth="100.0" text="Accept" />
+      <Label fx:id="oppTextArr" alignment="CENTER" layoutX="18.0" layoutY="14.0" onMouseClicked="#onClick" prefHeight="25.0" prefWidth="214.0" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="World.Controller.LoginController">
+   <children>
+      <TextField fx:id="IdText" layoutX="261.0" layoutY="200.0" onKeyPressed="#OnKeyPressed" promptText="Enter ID" />
+      <Label fx:id="IdLabel" layoutX="190.0" layoutY="204.0" text="User ID" />
+      <Label fx:id="PasswordLabel" layoutX="190.0" layoutY="257.0" text="Password" />
+      <Label layoutX="214.0" layoutY="98.0" text="PUKIMAN" textAlignment="CENTER" textFill="#3499e1">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="LoginButton" layoutX="194.0" layoutY="308.0" mnemonicParsing="false" onMouseClicked="#OnClick" prefHeight="25.0" prefWidth="70.0" text="Login" />
+      <Button fx:id="NewButton" layoutX="336.0" layoutY="308.0" mnemonicParsing="false" onMouseClicked="#OnClick" prefHeight="25.0" prefWidth="70.0" text="New User" />
+      <PasswordField fx:id="PassText" layoutX="261.0" layoutY="253.0" onKeyPressed="#OnKeyPressed" promptText="Password" />
+      <Label fx:id="FailLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="151.0" prefHeight="44.0" prefWidth="600.0" textAlignment="CENTER" />
+      <ImageView fx:id="LoadingImage" fitHeight="185.0" fitWidth="222.0" layoutX="189.0" layoutY="186.0" pickOnBounds="true" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="189.0" AnchorPane.rightAnchor="189.0" AnchorPane.topAnchor="186.0" />
+   </children>
+</AnchorPane>

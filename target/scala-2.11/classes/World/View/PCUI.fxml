@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="World.Controller.PCController">
+   <children>
+      <ListView fx:id="pcPokimon" focusTraversable="false" layoutY="200.0" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" />
+      <ImageView fx:id="pokimonImage" fitHeight="250.0" fitWidth="250.0" layoutX="250.0" nodeOrientation="INHERIT" onMouseClicked="#onImageClicked" pickOnBounds="true" preserveRatio="true" />
+      <ListView fx:id="trainerPokimon" focusTraversable="false" layoutY="50.0" onMouseClicked="#onClicked" prefHeight="100.0" prefWidth="200.0" />
+      <TextArea fx:id="pokimonDetails" editable="false" focusTraversable="false" layoutX="200.0" layoutY="250.0" prefHeight="150.0" prefWidth="400.0" />
+      <ImageView fx:id="exitImage" fitHeight="50.0" fitWidth="50.0" layoutX="550.0" onMouseReleased="#onExitClicked" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="513.0" layoutY="50.0" prefHeight="90.0" prefWidth="87.0" text="Press on the image to swap in or out" wrapText="true" />
+      <Label focusTraversable="false" prefHeight="50.0" prefWidth="200.0" style="-fx-text-alignment: CENTER;" text="Player Pokimon" textAlignment="CENTER">
+         <font>
+            <Font name="System Italic" size="28.0" />
+         </font>
+      </Label>
+      <Label focusTraversable="false" layoutY="150.0" prefHeight="50.0" prefWidth="200.0" text="PC Pokimon" textAlignment="CENTER">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

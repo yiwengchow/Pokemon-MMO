@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane prefHeight="150.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="World.Controller.UIController">
+   <children>
+      <AnchorPane fx:id="anchorPane" blendMode="DIFFERENCE" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+         <children>
+            <TextField fx:id="chatText" focusTraversable="false" layoutY="130.0" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="20.0" prefWidth="220.0" />
+            <TextArea fx:id="chatArea" editable="false" focusTraversable="false" prefHeight="130.0" prefWidth="220.0" wrapText="true" />
+            <Button fx:id="battleButton" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="696.0" layoutY="124.0" mnemonicParsing="false" onMouseClicked="#onClick" prefHeight="25.0" prefWidth="204.0" text="Battle!" />
+            <TabPane fx:id="Tab" focusTraversable="false" layoutX="220.0" onMousePressed="#onTabClick" prefHeight="150.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Pokemons">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="150.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="pokemonList" focusTraversable="false" onMouseClicked="#onPokemonListClick" prefHeight="130.0" prefWidth="200.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Items">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="150.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="itemList" focusTraversable="false" onMouseClicked="#onItemListClick" prefHeight="120.0" prefWidth="200.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+            <TextArea fx:id="tabDetails" editable="false" focusTraversable="false" layoutX="420.0" onMouseClicked="#onDetailsClick" prefHeight="150.0" prefWidth="276.0" wrapText="true" />
+            <Label fx:id="oppText" focusTraversable="false" layoutX="697.0" layoutY="2.0" prefHeight="25.0" prefWidth="198.0" text="Name" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <ImageView fx:id="tabImage" fitHeight="96.0" fitWidth="204.0" nodeOrientation="INHERIT" StackPane.alignment="CENTER_RIGHT" />
+   </children>
+</StackPane>
