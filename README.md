@@ -13,6 +13,16 @@ the other hand is only awarded to pokemons which participated in the won battle,
 In addition, the game has been made into an MMO where other players from anywhere in the world can connect to the same server 
 and see other players. They may speak to each other by typing in the chat box or battle each other.
 
-Disclaimer:
+Instructions to run:
 
-This project is far from complete or perfect, bugs may occur and most of the maps are incomplete. Will create more content in the future. :P.
+1) Run the sbt.bat and wait for it to load
+2) Type in run and enter to launch the application
+3) Make sure the server is turned on (The ip-address 127.0.0.1 is only applicable if the server app is ran on the same computer)
+
+Instructions to play:
+
+1) 
+
+Screenshots:
+
+https://www.dropbox.com/s/h6iiss6aeg4t2g1/Login.png?dl=0
